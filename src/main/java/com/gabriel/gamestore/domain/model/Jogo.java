@@ -5,6 +5,7 @@ import lombok.Data;
 import lombok.EqualsAndHashCode;
 
 import java.math.BigDecimal;
+import java.util.HashSet;
 import java.util.Set;
 
 @Entity
@@ -25,10 +26,26 @@ public class Jogo {
     @JoinTable(name = "jogo_categoria",
             joinColumns = @JoinColumn(name = "jogo_id"),
             inverseJoinColumns = @JoinColumn(name = "categoria_id"))
-    private Set<Categoria> categorias;
+    private Set<Categoria> categorias = new HashSet<>();
     @ManyToMany
     @JoinTable(name = "jogo_plataforma",
             joinColumns = @JoinColumn(name = "jogo_id"),
             inverseJoinColumns = @JoinColumn(name = "plataforma_id"))
-    private Set<Plataforma> plataformas;
+    private Set<Plataforma> plataformas = new HashSet<>();
+
+    public void addCategoria(Categoria categoria) {
+        categorias.add(categoria);
+    }
+
+    public void remCategoria(Categoria categoria) {
+        categorias.remove(categoria);
+    }
+
+    public void addPlataforma(Plataforma plataforma) {
+        plataformas.add(plataforma);
+    }
+
+    public void remPlataforma(Plataforma plataforma) {
+        plataformas.remove(plataforma);
+    }
 }
