@@ -6,8 +6,10 @@ import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
+import java.util.stream.Collectors;
 
 @Service
 @AllArgsConstructor
@@ -22,6 +24,8 @@ public class PlataformaService {
 
     @Transactional(readOnly = true)
     public List<Plataforma> buscarVariosPorId(Set<Long> plataformaIds) {
-        return repository.findAllById(plataformaIds);
+        return plataformaIds.stream()
+                .map(this::buscarPorId)
+                .collect(Collectors.toList());
     }
 }

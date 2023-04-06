@@ -26,6 +26,10 @@ public class JogoAssembler {
         return modelMapper.map(request, Jogo.class);
     }
 
+    public void copyToEntity(JogoRequest request, Jogo jogo) {
+        modelMapper.map(request, jogo);
+    }
+
     public List<JogoModel> toCollectionModel(List<Jogo> jogos) {
         return jogos.stream()
                 .map(this::toModel)

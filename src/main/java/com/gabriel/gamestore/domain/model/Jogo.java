@@ -37,7 +37,7 @@ public class Jogo {
         categorias.add(categoria);
     }
 
-    public void remCategoria(Categoria categoria) {
+    public void delCategoria(Categoria categoria) {
         categorias.remove(categoria);
     }
 
@@ -45,7 +45,7 @@ public class Jogo {
         plataformas.add(plataforma);
     }
 
-    public void remPlataforma(Plataforma plataforma) {
+    public void delPlataforma(Plataforma plataforma) {
         plataformas.remove(plataforma);
     }
 }

@@ -8,16 +8,15 @@ import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.HashSet;
 import java.util.List;
-import java.util.Set;
 
 @Service
 @AllArgsConstructor
 public class JogoService {
 
     private JogoRepository repository;
-    private CategoriaService categoriaService;
-    private PlataformaService plataformaService;
+
 
     @Transactional(readOnly = true)
     public List<Jogo> listar() {
@@ -34,25 +33,47 @@ public class JogoService {
         return repository.save(jogo);
     }
 
-    public List<Categoria> adicionarCategorias(Set<Long> categoriaIds) {
-        return categoriaService.buscarVariosPorIds(categoriaIds);
+
+    @Transactional
+    public void editarCategorias(Jogo jogo, List<Categoria> categorias) {
+        jogo.setCategorias(new HashSet<>());
+        adicionarCategorias(jogo, categorias);
     }
 
-    public void removerCategorias(Jogo jogo, Set<Long> categoriaIds) {
-        categoriaIds.forEach(categoriaId -> {
-            var categoria = categoriaService.buscarPorId(categoriaId);
-        });
+    @Transactional
+    public void editarPlataformas(Jogo jogo, List<Plataforma> plataformas) {
+        jogo.setPlataformas(new HashSet<>());
+        adicionarPlataformas(jogo, plataformas);
     }
 
-    public List<Plataforma> adicionarPlataformas(Set<Long> plataformaIds) {
-        return plataformaService.buscarVariosPorId(plataformaIds);
+
+    @Transactional
+    public void adicionarCategorias(Jogo jogo, List<Categoria> categorias) {
+        categorias.forEach(jogo::addCategoria);
     }
 
-    public void removerPlataformas(Jogo jogo, Set<Long> plataformaIds) {
-        plataformaIds.forEach(plataformaId -> {
-            var plataforma = plataformaService.buscarPorId(plataformaId);
-        });
+    @Transactional
+    public void removerCategorias(Jogo jogo, List<Categoria> categorias) {
+        categorias.forEach(jogo::delCategoria);
     }
+
+    @Transactional
+    public void adicionarPlataformas(Jogo jogo, List<Plataforma> plataformas) {
+        plataformas.forEach(jogo::addPlataforma);
+    }
+
+    @Transactional
+    public void removerPlataformas(Jogo jogo, List<Plataforma> plataformas) {
+        plataformas.forEach(jogo::delPlataforma);
+    }
+
+    @Transactional
+    public void remover(Long jogoId) {
+        var jogo = buscarPorId(jogoId);
+        repository.delete(jogo);
+    }
+
+
 
 
 

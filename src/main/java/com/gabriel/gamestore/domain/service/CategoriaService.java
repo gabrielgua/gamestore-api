@@ -5,8 +5,10 @@ import com.gabriel.gamestore.domain.repository.CategoriaRepository;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
+import java.util.stream.Collectors;
 
 @Service
 @AllArgsConstructor
@@ -19,6 +21,8 @@ public class CategoriaService {
     }
 
     public List<Categoria> buscarVariosPorIds(Set<Long> categoriaIds) {
-        return repository.findAllById(categoriaIds);
+        return categoriaIds.stream()
+                .map(this::buscarPorId)
+                .collect(Collectors.toList());
     }
 }
