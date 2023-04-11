@@ -16,6 +16,10 @@ public class CategoriaService {
 
     private CategoriaRepository repository;
 
+    public List<Categoria> listar() {
+        return repository.findAll();
+    }
+
     public Categoria buscarPorId(Long categoriaId) {
         return repository.findById(categoriaId).orElseThrow();
     }
@@ -24,5 +28,14 @@ public class CategoriaService {
         return categoriaIds.stream()
                 .map(this::buscarPorId)
                 .collect(Collectors.toList());
+    }
+
+    public Categoria salvar(Categoria categoria) {
+        return repository.save(categoria);
+    }
+
+    public void remover(Long categoriaId) {
+        var categoria = buscarPorId(categoriaId);
+        repository.delete(categoria);
     }
 }

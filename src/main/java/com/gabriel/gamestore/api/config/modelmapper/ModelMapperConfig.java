@@ -1,4 +1,4 @@
-package com.gabriel.gamestore.api.config;
+package com.gabriel.gamestore.api.config.modelmapper;
 
 import com.gabriel.gamestore.domain.service.JogoService;
 import org.modelmapper.ModelMapper;
