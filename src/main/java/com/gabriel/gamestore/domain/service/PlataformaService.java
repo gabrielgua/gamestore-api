@@ -1,8 +1,11 @@
 package com.gabriel.gamestore.domain.service;
 
+import com.gabriel.gamestore.domain.exception.EntidadeEmUsoException;
+import com.gabriel.gamestore.domain.exception.PlataformaNaoEncontradaException;
 import com.gabriel.gamestore.domain.model.Plataforma;
 import com.gabriel.gamestore.domain.repository.PlataformaRepository;
 import lombok.AllArgsConstructor;
+import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -24,7 +27,7 @@ public class PlataformaService {
 
     @Transactional(readOnly = true)
     public Plataforma buscarPorId(Long plataformaId) {
-        return repository.findById(plataformaId).orElseThrow();
+        return repository.findById(plataformaId).orElseThrow(() -> new PlataformaNaoEncontradaException(plataformaId));
     }
 
     @Transactional(readOnly = true)
@@ -41,7 +44,12 @@ public class PlataformaService {
 
     @Transactional
     public void remover(Long plataformaId) {
-        var plataforma = buscarPorId(plataformaId);
-        repository.delete(plataforma);
+        try {
+            var plataforma = buscarPorId(plataformaId);
+            repository.delete(plataforma);
+            repository.flush();
+        } catch (DataIntegrityViolationException ex) {
+            throw new EntidadeEmUsoException(String.format("Plataforma de id: #%s está em uso. Remova-a de qualquer jogo e tente novamente.", plataformaId));
+        }
     }
 }

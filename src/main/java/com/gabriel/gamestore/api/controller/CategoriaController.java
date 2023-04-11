@@ -5,7 +5,9 @@ import com.gabriel.gamestore.api.model.CategoriaModel;
 import com.gabriel.gamestore.api.model.request.CategoriaRequest;
 import com.gabriel.gamestore.domain.model.Categoria;
 import com.gabriel.gamestore.domain.service.CategoriaService;
+import jakarta.validation.Valid;
 import lombok.AllArgsConstructor;
+import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -29,13 +31,14 @@ public class CategoriaController {
     }
 
     @PostMapping
-    public CategoriaModel adicionar(@RequestBody CategoriaRequest request) {
+    @ResponseStatus(HttpStatus.CREATED)
+    public CategoriaModel adicionar(@Valid @RequestBody CategoriaRequest request) {
         var categoria = assembler.toEntity(request);
         return assembler.toModel(service.salvar(categoria));
     }
 
     @PutMapping("/{categoriaId}")
-    public CategoriaModel editar(@PathVariable Long categoriaId, @RequestBody CategoriaRequest request) {
+    public CategoriaModel editar(@PathVariable Long categoriaId, @Valid @RequestBody CategoriaRequest request) {
         var categoria = service.buscarPorId(categoriaId);
         assembler.copyToEntity(request, categoria);
         return assembler.toModel(service.salvar(categoria));

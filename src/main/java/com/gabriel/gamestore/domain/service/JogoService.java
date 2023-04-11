@@ -1,5 +1,6 @@
 package com.gabriel.gamestore.domain.service;
 
+import com.gabriel.gamestore.domain.exception.JogoNaoEncontradoException;
 import com.gabriel.gamestore.domain.model.Categoria;
 import com.gabriel.gamestore.domain.model.Jogo;
 import com.gabriel.gamestore.domain.model.Plataforma;
@@ -25,7 +26,7 @@ public class JogoService {
 
     @Transactional(readOnly = true)
     public Jogo buscarPorId(Long jogoId) {
-        return repository.findById(jogoId).orElseThrow();
+        return repository.findById(jogoId).orElseThrow(() -> new JogoNaoEncontradoException(jogoId));
     }
 
     @Transactional

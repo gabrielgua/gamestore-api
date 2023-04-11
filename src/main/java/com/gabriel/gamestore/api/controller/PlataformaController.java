@@ -7,6 +7,7 @@ import com.gabriel.gamestore.api.model.request.PlataformaRequest;
 import com.gabriel.gamestore.domain.service.PlataformaService;
 import jakarta.validation.Valid;
 import lombok.AllArgsConstructor;
+import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -30,13 +31,14 @@ public class PlataformaController {
     }
 
     @PostMapping
-    public PlataformaModel adicionar(@RequestBody PlataformaRequest request) {
+    @ResponseStatus(HttpStatus.CREATED)
+    public PlataformaModel adicionar(@Valid @RequestBody PlataformaRequest request) {
         var plataforma = assembler.toEntity(request);
         return assembler.toModel(service.salvar(plataforma));
     }
 
     @PutMapping("/{plataformaId}")
-    public PlataformaModel editar(@PathVariable Long plataformaId, @RequestBody PlataformaRequest request) {
+    public PlataformaModel editar(@PathVariable Long plataformaId, @Valid @RequestBody PlataformaRequest request) {
         var plataforma = service.buscarPorId(plataformaId);
         assembler.copyToEntity(request, plataforma);
         return assembler.toModel(service.salvar(plataforma));
