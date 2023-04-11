@@ -18,6 +18,11 @@ public class PlataformaService {
     private PlataformaRepository repository;
 
     @Transactional(readOnly = true)
+    public List<Plataforma> listar() {
+        return repository.findAll();
+    }
+
+    @Transactional(readOnly = true)
     public Plataforma buscarPorId(Long plataformaId) {
         return repository.findById(plataformaId).orElseThrow();
     }
@@ -27,5 +32,16 @@ public class PlataformaService {
         return plataformaIds.stream()
                 .map(this::buscarPorId)
                 .collect(Collectors.toList());
+    }
+
+    @Transactional
+    public Plataforma salvar(Plataforma plataforma) {
+        return repository.save(plataforma);
+    }
+
+    @Transactional
+    public void remover(Long plataformaId) {
+        var plataforma = buscarPorId(plataformaId);
+        repository.delete(plataforma);
     }
 }
