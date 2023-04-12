@@ -6,6 +6,7 @@ import lombok.Builder;
 import lombok.Getter;
 
 import java.time.OffsetDateTime;
+import java.util.List;
 
 @Getter
 @Builder
@@ -18,6 +19,8 @@ public class Problema {
     private String title;
     private String detail;
     private String userMessage;
+
+    private List<Objeto> fields;
 
     @Getter
     @Builder
