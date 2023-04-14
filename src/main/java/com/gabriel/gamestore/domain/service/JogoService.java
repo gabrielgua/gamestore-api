@@ -1,11 +1,13 @@
 package com.gabriel.gamestore.domain.service;
 
+import com.gabriel.gamestore.domain.exception.EntidadeEmUsoException;
 import com.gabriel.gamestore.domain.exception.JogoNaoEncontradoException;
 import com.gabriel.gamestore.domain.model.Categoria;
 import com.gabriel.gamestore.domain.model.Jogo;
 import com.gabriel.gamestore.domain.model.Plataforma;
 import com.gabriel.gamestore.domain.repository.JogoRepository;
 import lombok.AllArgsConstructor;
+import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -78,8 +80,13 @@ public class JogoService {
 
     @Transactional
     public void remover(Long jogoId) {
-        var jogo = buscarPorId(jogoId);
-        repository.delete(jogo);
+        try {
+            var jogo = buscarPorId(jogoId);
+            repository.delete(jogo);
+            repository.flush();
+        } catch (DataIntegrityViolationException ex) {
+            throw new EntidadeEmUsoException(String.format("Jogo de id: #%s está em uso. Remova-o da conta dos usuários e tente novamente.", jogoId));
+        }
     }
 
 
