@@ -1,6 +1,7 @@
 package com.gabriel.gamestore.domain.service;
 
 import com.gabriel.gamestore.domain.exception.UsuarioNaoEncontradoException;
+import com.gabriel.gamestore.domain.model.Jogo;
 import com.gabriel.gamestore.domain.model.Usuario;
 import com.gabriel.gamestore.domain.repository.UsuarioRepository;
 import lombok.AllArgsConstructor;
@@ -36,6 +37,17 @@ public class UsuarioService {
         var usuario = buscarPorId(usuarioId);
         repository.delete(usuario);
     }
+
+    @Transactional
+    public void adicionarJogos(Usuario usuario, List<Jogo> jogos) {
+        jogos.forEach(usuario::addJogo);
+    }
+
+    @Transactional
+    public void removerJogos(Usuario usuario, List<Jogo> jogos) {
+        jogos.forEach(usuario::delJogo);
+    }
+
 
 
 

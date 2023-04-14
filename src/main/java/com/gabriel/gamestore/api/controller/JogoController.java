@@ -2,6 +2,7 @@ package com.gabriel.gamestore.api.controller;
 
 import com.gabriel.gamestore.api.assembler.JogoAssembler;
 import com.gabriel.gamestore.api.model.JogoModel;
+import com.gabriel.gamestore.api.model.JogoResumoModel;
 import com.gabriel.gamestore.api.model.request.JogoRequest;
 import com.gabriel.gamestore.domain.model.Categoria;
 import com.gabriel.gamestore.domain.service.CategoriaService;
@@ -25,7 +26,7 @@ public class JogoController {
     private JogoAssembler assembler;
 
     @GetMapping
-    public List<JogoModel> listar() {
+    public List<JogoResumoModel> listar() {
         return assembler.toCollectionModel(jogoService.listar());
     }
 

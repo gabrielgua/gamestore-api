@@ -30,4 +30,12 @@ public class Usuario {
         inverseJoinColumns = @JoinColumn(name = "jogo_id"))
     private Set<Jogo> jogos;
 
+    public void addJogo(Jogo jogo) {
+        jogos.add(jogo);
+    }
+
+    public void delJogo(Jogo jogo) {
+        jogos.remove(jogo);
+    }
+
 }

@@ -11,6 +11,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.util.HashSet;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 @AllArgsConstructor
@@ -27,6 +28,13 @@ public class JogoService {
     @Transactional(readOnly = true)
     public Jogo buscarPorId(Long jogoId) {
         return repository.findById(jogoId).orElseThrow(() -> new JogoNaoEncontradoException(jogoId));
+    }
+
+    @Transactional(readOnly = true)
+    public List<Jogo> buscarVariosPorId(List<Long> jogosIds) {
+        return jogosIds.stream()
+                .map(this::buscarPorId)
+                .collect(Collectors.toList());
     }
 
     @Transactional
