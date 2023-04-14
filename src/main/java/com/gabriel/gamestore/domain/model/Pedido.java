@@ -11,6 +11,7 @@ import java.time.OffsetDateTime;
 import java.util.HashSet;
 import java.util.Set;
 import java.util.UUID;
+import java.util.stream.Collectors;
 
 @Data
 @Entity
@@ -30,7 +31,7 @@ public class Pedido {
     private OffsetDateTime dataReembolso;
 
     @Enumerated(EnumType.STRING)
-    private StatusPedido status;
+    private StatusPedido status = StatusPedido.CRIADO;
 
     @ManyToOne
     @JoinColumn(nullable = false)
@@ -70,6 +71,14 @@ public class Pedido {
     @PrePersist
     private void gerarCodigo() {
         setCodigo(UUID.randomUUID().toString());
+    }
+
+    public void calcularValorTotal() {
+        var valorTotal = getJogos().stream()
+                .map(Jogo::getPreco)
+                .reduce(BigDecimal.ZERO, BigDecimal::add);
+
+        setValorTotal(valorTotal);
     }
 
 
