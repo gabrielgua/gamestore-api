@@ -44,6 +44,11 @@ public class PedidoService {
     public void confirmar(String codigoPedido) {
         var pedido = buscarPorCodigo(codigoPedido);
         pedido.confirmarPedido();
+
+        var usuario = usuarioService.buscarPorId(pedido.getUsuario().getId());
+        var jogos = getJogos(pedido);
+
+        usuarioService.adicionarJogos(usuario, jogos);
     }
 
     @Transactional
@@ -56,19 +61,28 @@ public class PedidoService {
     public void reembolsar(String codigoPedido) {
         var pedido = buscarPorCodigo(codigoPedido);
         pedido.reembolsarPedido();
+
+        var usuario = usuarioService.buscarPorId(pedido.getUsuario().getId());
+        var jogos = getJogos(pedido);
+
+        usuarioService.removerJogos(usuario, jogos);
     }
 
     private void validarPedido(Pedido pedido) {
         var usuario = usuarioService.buscarPorId(pedido.getUsuario().getId());
-        var jogosIds = pedido.getJogos().stream()
-                .map(Jogo::getId).toList();
-
-        var jogos = jogoService.buscarVariosPorId(jogosIds);
+        var jogos = getJogos(pedido);
 
         pedido.setUsuario(usuario);
         pedido.setJogos(Set.copyOf(jogos));
         pedido.calcularValorTotal();
 
+    }
+
+    private List<Jogo> getJogos(Pedido pedido) {
+        var jogosIds = pedido.getJogos().stream()
+                .map(Jogo::getId).toList();
+
+        return jogoService.buscarVariosPorId(jogosIds);
     }
 
 

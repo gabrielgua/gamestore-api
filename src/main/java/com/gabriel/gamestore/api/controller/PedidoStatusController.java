@@ -10,24 +10,24 @@ import org.springframework.web.bind.annotation.*;
 @RequestMapping("/pedidos/{codigoPedido}")
 public class PedidoStatusController {
 
-    private PedidoService service;
+    private PedidoService pedidoService;
 
     @PutMapping("/confirmar")
     @ResponseStatus(HttpStatus.NO_CONTENT)
     public void confirmarPedido(@PathVariable String codigoPedido) {
-        service.confirmar(codigoPedido);
+        pedidoService.confirmar(codigoPedido);
     }
 
     @PutMapping("/cancelar")
     @ResponseStatus(HttpStatus.NO_CONTENT)
     public void cancelarPedido(@PathVariable String codigoPedido) {
-        service.cancelar(codigoPedido);
+        pedidoService.cancelar(codigoPedido);
     }
 
     @PutMapping("/reembolsar")
     @ResponseStatus(HttpStatus.NO_CONTENT)
     public void reembolsarPedido(@PathVariable String codigoPedido) {
-        service.reembolsar(codigoPedido);
+        pedidoService.reembolsar(codigoPedido);
     }
 
 }
