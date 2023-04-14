@@ -40,6 +40,24 @@ public class PedidoService {
         return repository.save(pedido);
     }
 
+    @Transactional
+    public void confirmar(String codigoPedido) {
+        var pedido = buscarPorCodigo(codigoPedido);
+        pedido.confirmarPedido();
+    }
+
+    @Transactional
+    public void cancelar(String codigoPedido) {
+        var pedido = buscarPorCodigo(codigoPedido);
+        pedido.cancelarPedido();
+    }
+
+    @Transactional
+    public void reembolsar(String codigoPedido) {
+        var pedido = buscarPorCodigo(codigoPedido);
+        pedido.reembolsarPedido();
+    }
+
     private void validarPedido(Pedido pedido) {
         var usuario = usuarioService.buscarPorId(pedido.getUsuario().getId());
         var jogosIds = pedido.getJogos().stream()
@@ -52,4 +70,6 @@ public class PedidoService {
         pedido.calcularValorTotal();
 
     }
+
+
 }

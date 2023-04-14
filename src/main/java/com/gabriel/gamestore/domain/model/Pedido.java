@@ -43,17 +43,17 @@ public class Pedido {
         inverseJoinColumns = @JoinColumn(name = "jogo_id"))
     private Set<Jogo> jogos = new HashSet<>();
 
-    private void confirmarPedido() {
+    public void confirmarPedido() {
         setStatus(StatusPedido.CONFIRMADO);
         setDataConfirmacao(OffsetDateTime.now());
     }
 
-    private void cancelarPedido() {
+    public void cancelarPedido() {
         setStatus(StatusPedido.CANCELADO);
         setDataCancelamento(OffsetDateTime.now());
     }
 
-    private void reembolsarPedido() {
+    public void reembolsarPedido() {
         setStatus(StatusPedido.REEMBOLSADO);
         setDataReembolso(OffsetDateTime.now());
     }
