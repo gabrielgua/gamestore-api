@@ -5,6 +5,8 @@ delete from categoria;
 delete from plataforma;
 delete from jogo_categoria;
 delete from jogo_plataforma;
+delete from usuario;
+delete from usuario_jogo;
 
 set foreign_key_checks = 1;
 
@@ -12,6 +14,7 @@ set foreign_key_checks = 1;
 alter table jogo auto_increment = 1;
 alter table categoria auto_increment = 1;
 alter table plataforma auto_increment = 1;
+alter table usuario auto_increment = 1;
 
 insert into jogo (id, nome, descricao, preco, nota) values
 (1, 'Dark Souls I', 'Bate e rola 1.', 129.90, 9.8),
@@ -39,5 +42,13 @@ insert into jogo_plataforma (jogo_id, plataforma_id) values
 (3, 1), (3, 2), (3, 3), (3, 4), (3, 5),
 (4, 1),
 (5, 1);
+
+insert into usuario (id, nome, username, email, senha, data_cadastro) values
+(1, "Gabriel", "opaco", "gabriel.opaco@email.com", "$2a$12$Z7eR/rUV9CusNU3IEDtyhOhmos/sAQOv5W7MuEd/tU9lejmCdmzZ2", utc_timestamp),
+(2, null, "usuarioGamer", "usuario.gamer@email.com", "$2a$12$Z7eR/rUV9CusNU3IEDtyhOhmos/sAQOv5W7MuEd/tU9lejmCdmzZ2", utc_timestamp);
+
+insert into usuario_jogo (usuario_id, jogo_id) values
+(1, 1), (1, 3), (1, 5),
+(2, 2);
 
 

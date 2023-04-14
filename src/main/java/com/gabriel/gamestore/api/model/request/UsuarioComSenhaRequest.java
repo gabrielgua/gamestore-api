@@ -1,0 +1,12 @@
+package com.gabriel.gamestore.api.model.request;
+
+import jakarta.validation.constraints.NotBlank;
+import lombok.Getter;
+import lombok.Setter;
+
+@Getter
+@Setter
+public class UsuarioComSenhaRequest extends UsuarioRequest {
+    @NotBlank
+    private String senha;
+}
