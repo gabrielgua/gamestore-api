@@ -45,9 +45,9 @@ insert into jogo_plataforma (jogo_id, plataforma_id) values
 (4, 1),
 (5, 1);
 
-insert into usuario (id, nome, username, email, senha, data_cadastro) values
-(1, "Gabriel", "opaco", "gabriel.opaco@email.com", "$2a$12$Z7eR/rUV9CusNU3IEDtyhOhmos/sAQOv5W7MuEd/tU9lejmCdmzZ2", utc_timestamp),
-(2, null, "usuarioGamer", "usuario.gamer@email.com", "$2a$12$Z7eR/rUV9CusNU3IEDtyhOhmos/sAQOv5W7MuEd/tU9lejmCdmzZ2", utc_timestamp);
+insert into usuario (id, nome, username, tipo, email, senha, data_cadastro) values
+(1, "Gabriel", "opaco", "ADMIN", "gabriel.opaco@email.com", "$2a$12$Z7eR/rUV9CusNU3IEDtyhOhmos/sAQOv5W7MuEd/tU9lejmCdmzZ2", utc_timestamp),
+(2, null, "usuarioGamer", "USER", "usuario.gamer@email.com", "$2a$12$Z7eR/rUV9CusNU3IEDtyhOhmos/sAQOv5W7MuEd/tU9lejmCdmzZ2", utc_timestamp);
 
 insert into usuario_jogo (usuario_id, jogo_id) values
 (1, 1), (1, 3), (1, 5),

@@ -3,6 +3,7 @@ package com.gabriel.gamestore.api.controller;
 import com.gabriel.gamestore.api.assembler.UsuarioAssembler;
 import com.gabriel.gamestore.api.model.UsuarioModel;
 import com.gabriel.gamestore.api.model.UsuarioResumoModel;
+import com.gabriel.gamestore.api.model.request.SenhaRequest;
 import com.gabriel.gamestore.api.model.request.UsuarioComSenhaRequest;
 import com.gabriel.gamestore.api.model.request.UsuarioRequest;
 import com.gabriel.gamestore.domain.service.UsuarioService;
@@ -46,5 +47,10 @@ public class UsuarioController {
     @DeleteMapping("/{usuarioId}")
     public void remover(@PathVariable Long usuarioId) {
         service.remover(usuarioId);
+    }
+
+    @PutMapping("/{usuarioId}/senha")
+    public void alterarSenha(@PathVariable Long usuarioId, @Valid @RequestBody SenhaRequest request) {
+        service.alterarSenha(usuarioId, request.getSenhaAtual(), request.getSenhaNova());
     }
 }

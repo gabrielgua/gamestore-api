@@ -22,6 +22,9 @@ public class Usuario {
     private String email;
     private String username;
     private String senha;
+    @Enumerated(EnumType.STRING)
+    private TipoUsuario tipo;
+
     @CreationTimestamp
     private OffsetDateTime dataCadastro;
     @ManyToMany
@@ -36,6 +39,10 @@ public class Usuario {
 
     public void delJogo(Jogo jogo) {
         jogos.remove(jogo);
+    }
+
+    public boolean isNovo() {
+        return getId() == null;
     }
 
 }

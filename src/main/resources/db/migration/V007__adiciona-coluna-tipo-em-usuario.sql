@@ -1,0 +1,1 @@
+alter table usuario add tipo varchar(10) not null after nome;
