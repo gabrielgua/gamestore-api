@@ -7,6 +7,8 @@ import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
+import java.util.List;
+
 @Component
 public class PedidoAssembler {
 
@@ -19,6 +21,12 @@ public class PedidoAssembler {
 
     public Pedido toEntity(PedidoRequest request) {
         return modelMapper.map(request, Pedido.class);
+    }
+
+    public List<PedidoResumoModel> toCollectionModel(List<Pedido> pedidos) {
+        return pedidos.stream()
+                .map(this::toResumoModel)
+                .toList();
     }
 
 }

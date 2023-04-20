@@ -33,11 +33,12 @@ public class UsuarioService {
 
     @Transactional
     public Usuario salvar(Usuario usuario) {
+        repository.detach(usuario);
+        System.out.println(usuario);
         checarEmailAndUsername(usuario);
 
-        if (usuario.isNovo()) usuario.setSenha(encoder.encode(usuario.getSenha()));
-
-        if (usuario.getTipo() == null) {
+        if (usuario.isNovo()) {
+            usuario.setSenha(encoder.encode(usuario.getSenha()));
             usuario.setTipo(TipoUsuario.USER);
         }
 

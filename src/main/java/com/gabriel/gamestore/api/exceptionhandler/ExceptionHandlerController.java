@@ -16,6 +16,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.HttpStatusCode;
 import org.springframework.http.ResponseEntity;
 import org.springframework.http.converter.HttpMessageNotReadableException;
+import org.springframework.security.access.AccessDeniedException;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.FieldError;
 import org.springframework.web.bind.MethodArgumentNotValidException;
@@ -210,6 +211,19 @@ public class ExceptionHandlerController extends ResponseEntityExceptionHandler {
         var status = HttpStatus.CONFLICT;
         var detail = ex.getMessage();
         var type = ProblemaType.ENTIDADE_EM_USO;
+
+        var problema = createProblemaBuilder(status, type, detail)
+                .userMessage(detail)
+                .build();
+
+        return handleExceptionInternal(ex, problema, new HttpHeaders(), status, request);
+    }
+
+    @ExceptionHandler(AccessDeniedException.class)
+    public ResponseEntity<?> handleAccessDenied(AccessDeniedException ex, WebRequest request) {
+        var status = HttpStatus.UNAUTHORIZED;
+        var detail = "Você não possui acesso à esse recurso";
+        var type = ProblemaType.ACESSO_NEGADO;
 
         var problema = createProblemaBuilder(status, type, detail)
                 .userMessage(detail)

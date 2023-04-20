@@ -24,14 +24,16 @@ public class Usuario {
     private String senha;
     @Enumerated(EnumType.STRING)
     private TipoUsuario tipo;
-
     @CreationTimestamp
     private OffsetDateTime dataCadastro;
-    @ManyToMany
+    @ManyToMany(fetch = FetchType.EAGER)
     @JoinTable(name = "usuario_jogo",
         joinColumns = @JoinColumn(name = "usuario_id"),
         inverseJoinColumns = @JoinColumn(name = "jogo_id"))
     private Set<Jogo> jogos;
+
+    @OneToMany(mappedBy = "usuario")
+    private Set<Pedido> pedidos;
 
     public void addJogo(Jogo jogo) {
         jogos.add(jogo);

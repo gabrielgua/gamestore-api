@@ -13,10 +13,6 @@ public class PedidoRequest {
 
     @Valid
     @NotNull
-    private UsuarioIdRequest usuario;
-
-    @Valid
-    @NotNull
     private List<JogoIdRequest> jogos;
 
 }

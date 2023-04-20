@@ -17,7 +17,4 @@ public class UsuarioRequest {
     private String username;
     @Nullable
     private String nome;
-    @Nullable
-    private String tipo;
-
 }

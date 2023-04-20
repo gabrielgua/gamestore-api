@@ -13,4 +13,5 @@ public class JogoResumoModel {
     private String nome;
     private String descricao;
     private BigDecimal nota;
+    private BigDecimal preco;
 }

@@ -3,6 +3,7 @@ package com.gabriel.gamestore.api.security.resourceserver;
 import com.gabriel.gamestore.api.security.AuthProperties;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.http.HttpMethod;
 import org.springframework.security.config.Customizer;
 import org.springframework.security.config.annotation.method.configuration.EnableMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
@@ -21,7 +22,7 @@ import java.util.Collections;
 public class ResourceServerConfig {
 
     private static final String[] AUTH_WHITELIST = {
-            "/login", "/logout", "/oauth2/login", "/jogos", "/fonts/**", "/css/**", "/images/**"
+            "/login", "/logout", "/oauth2/login", "/fonts/**", "/css/**", "/images/**"
     };
 
     @Bean
@@ -30,16 +31,16 @@ public class ResourceServerConfig {
                 .csrf().disable()
                 .cors()
                 .and()
+                .authorizeHttpRequests().requestMatchers(AUTH_WHITELIST).permitAll()
+                .and()
                 .authorizeHttpRequests(authorize -> {
-                    try {
-                        authorize
-                                .requestMatchers(AUTH_WHITELIST).permitAll()
-                                .and()
-                                .authorizeHttpRequests().anyRequest().authenticated();
-                    } catch (Exception e) {
-                        throw new RuntimeException(e);
-                    }
+                    authorize
+                            .requestMatchers(HttpMethod.GET, "/jogos", "/jogos/*").permitAll()
+                            .requestMatchers(HttpMethod.GET, "/plataformas", "/plataformas/*").permitAll()
+                            .requestMatchers(HttpMethod.GET, "/categorias", "/categorias/*").permitAll();
                 })
+                .authorizeHttpRequests().anyRequest().authenticated()
+                .and()
                 .oauth2ResourceServer().jwt().jwtAuthenticationConverter(jwtAuthenticationConverter());
 
         httpSecurity.logout(logoutConfig -> {
