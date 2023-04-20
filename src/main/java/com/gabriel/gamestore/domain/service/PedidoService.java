@@ -1,5 +1,6 @@
 package com.gabriel.gamestore.domain.service;
 
+import com.gabriel.gamestore.domain.exception.NegocioException;
 import com.gabriel.gamestore.domain.exception.PedidoNaoEncontradoException;
 import com.gabriel.gamestore.domain.model.Jogo;
 import com.gabriel.gamestore.domain.model.Pedido;
@@ -72,6 +73,15 @@ public class PedidoService {
         var usuario = usuarioService.buscarPorId(pedido.getUsuario().getId());
         var jogos = getJogos(pedido);
 
+        List<Jogo> jogosIguais = usuario.getJogos().stream().filter(jogos::contains).toList();
+        List<String> nomesJogosIguais = jogosIguais.stream().map(Jogo::getNome).toList();
+
+        if (!jogosIguais.isEmpty()) {
+            throw new NegocioException(
+                    String.format("Usuário '%s' já possui os seguintes jogos: '%s'"
+                            , usuario.getUsername(), nomesJogosIguais));
+        };
+
         pedido.setUsuario(usuario);
         pedido.setJogos(Set.copyOf(jogos));
         pedido.calcularValorTotal();
@@ -84,6 +94,7 @@ public class PedidoService {
 
         return jogoService.buscarVariosPorId(jogosIds);
     }
+
 
 
 }
