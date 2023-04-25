@@ -5,6 +5,7 @@ import com.gabriel.gamestore.api.model.PedidoResumoModel;
 import com.gabriel.gamestore.api.model.request.PedidoRequest;
 import com.gabriel.gamestore.api.security.roleauthotization.AuthorizationConfig;
 import com.gabriel.gamestore.api.security.roleauthotization.CheckSecurity;
+import com.gabriel.gamestore.domain.service.FormaPagamentoService;
 import com.gabriel.gamestore.domain.service.PedidoService;
 import com.gabriel.gamestore.domain.service.UsuarioService;
 import jakarta.validation.Valid;
@@ -22,6 +23,7 @@ public class PedidoController {
 
     private PedidoService pedidoService;
     private UsuarioService usuarioService;
+    private FormaPagamentoService formaPagamentoService;
     private PedidoAssembler assembler;
 
     @Autowired
@@ -51,8 +53,10 @@ public class PedidoController {
     public PedidoResumoModel fazerPedido(@Valid @RequestBody PedidoRequest request) {
         var pedido = assembler.toEntity(request);
         var usuario = usuarioService.buscarPorId(authConfig.getUsuarioId());
+        var formaPagamento = formaPagamentoService.buscarPorId(request.getFormaPagamento().getId());
 
         pedido.setUsuario(usuario);
+        pedido.setFormaPagamento(formaPagamento);
 
         return assembler.toResumoModel(pedidoService.salvar(pedido));
     }

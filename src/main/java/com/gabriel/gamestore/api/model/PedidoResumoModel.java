@@ -16,6 +16,7 @@ public class PedidoResumoModel {
     private Long id;
     private String codigo;
     private BigDecimal valorTotal;
+    private FormaPagamentoPedidoModel formaPagamento;
     private OffsetDateTime dataCriacao;
     private OffsetDateTime dataCancelamento;
     private OffsetDateTime dataConfirmacao;

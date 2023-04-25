@@ -11,7 +11,6 @@ delete from jogo_categoria;
 delete from jogo_plataforma;
 delete from forma_pagamento;
 
-set foreign_key_checks = 1;
 
 alter table jogo auto_increment = 1;
 alter table pedido auto_increment = 1;
@@ -58,10 +57,10 @@ insert into usuario_jogo (usuario_id, jogo_id) values
 (1, 1), (1, 3), (1, 5),
 (2, 2);
 
-insert into pedido (id, codigo, valor_total, data_criacao, data_confirmacao, data_cancelamento, data_reembolso, status, usuario_id) values
-(1, "7221549c-db06-11ed-afa1-0242ac120002", 309.80, utc_timestamp, null, null, null, "CONFIRMADO", 1),
-(2, "b751b070-db06-11ed-afa1-0242ac120002", 79.90, utc_timestamp, null, utc_timestamp, null, "CANCELADO", 1),
-(3, "d5e719f8-db06-11ed-afa1-0242ac120002", 259.98, utc_timestamp, null,null, null, "CRIADO", 2);
+insert into pedido (id, codigo, valor_total, data_criacao, data_confirmacao, data_cancelamento, data_reembolso, status, usuario_id, forma_pagamento_id) values
+(1, "7221549c-db06-11ed-afa1-0242ac120002", 309.80, utc_timestamp, null, null, null, "CONFIRMADO", 1, 3),
+(2, "b751b070-db06-11ed-afa1-0242ac120002", 79.90, utc_timestamp, null, utc_timestamp, null, "CANCELADO", 1, 2),
+(3, "d5e719f8-db06-11ed-afa1-0242ac120002", 259.98, utc_timestamp, null,null, null, "CRIADO", 2, 1);
 
 insert into pedido_jogo (pedido_id, jogo_id) values
 (1, 1), (1, 2),

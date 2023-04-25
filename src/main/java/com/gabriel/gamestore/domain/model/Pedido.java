@@ -37,6 +37,10 @@ public class Pedido {
     @JoinColumn(nullable = false)
     private Usuario usuario;
 
+    @ManyToOne
+    @JoinColumn(nullable = false)
+    private FormaPagamento formaPagamento;
+
     @ManyToMany
     @JoinTable(name = "pedido_jogo",
         joinColumns = @JoinColumn(name = "pedido_id"),

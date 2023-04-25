@@ -15,4 +15,8 @@ public class PedidoRequest {
     @NotNull
     private List<JogoIdRequest> jogos;
 
+    @Valid
+    @NotNull
+    private FormaPagamentoIdRequest formaPagamento;
+
 }
