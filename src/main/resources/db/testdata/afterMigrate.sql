@@ -9,6 +9,7 @@ delete from pedido_jogo;
 delete from usuario_jogo;
 delete from jogo_categoria;
 delete from jogo_plataforma;
+delete from forma_pagamento;
 
 set foreign_key_checks = 1;
 
@@ -17,6 +18,7 @@ alter table pedido auto_increment = 1;
 alter table usuario auto_increment = 1;
 alter table categoria auto_increment = 1;
 alter table plataforma auto_increment = 1;
+alter table forma_pagamento auto_increment = 1;
 
 insert into jogo (id, nome, descricao, preco, nota) values
 (1, 'Dark Souls I', 'Bate e rola 1.', 129.90, 9.8),
@@ -30,6 +32,9 @@ insert into categoria (id, nome) values
 
 insert into plataforma (id, nome) values
 (1, 'PC'), (2, 'PS4'), (3, 'PS5'), (4, 'Xbox ONE'), (5, 'Xbox Series X/S');
+
+insert into forma_pagamento (id, nome) values
+(1, 'Pix'), (2, 'Boleto'), (3, 'Cartão de crédito'), (4, 'Cartão de débito'), (5, 'Cartão presente');
 
 insert into jogo_categoria (jogo_id, categoria_id) values
 (1, 2), (1, 3),

@@ -9,22 +9,7 @@ import java.lang.annotation.Target;
 
 public @interface CheckSecurity {
 
-
-    public @interface Jogos {
-
-        @Retention(RetentionPolicy.RUNTIME)
-        @Target(ElementType.METHOD)
-        @PreAuthorize("permitAll()")
-        public @interface podeConsultar {}
-
-        @Retention(RetentionPolicy.RUNTIME)
-        @Target(ElementType.METHOD)
-        @PreAuthorize("@authorizationConfig.podeGerenciarOuConsultarRecursosProtegidosGerais()")
-        public @interface podeGerenciar {}
-
-    }
-
-    public @interface CategoriasAndPlataformas {
+    public @interface Geral {
 
         @Retention(RetentionPolicy.RUNTIME)
         @Target(ElementType.METHOD)

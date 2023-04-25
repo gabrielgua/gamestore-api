@@ -1,6 +1,5 @@
 package com.gabriel.gamestore.api.controller;
 
-import com.electronwill.nightconfig.core.conversion.Path;
 import com.gabriel.gamestore.api.assembler.PlataformaAssembler;
 import com.gabriel.gamestore.api.model.PlataformaModel;
 import com.gabriel.gamestore.api.model.request.PlataformaRequest;
@@ -22,19 +21,19 @@ public class PlataformaController {
     private PlataformaAssembler assembler;
 
     @GetMapping
-    @CheckSecurity.CategoriasAndPlataformas.podeConsultar
+    @CheckSecurity.Geral.podeConsultar
     public List<PlataformaModel> listar() {
         return assembler.toCollectionModel(service.listar());
     }
 
     @GetMapping("/{plataformaId}")
-    @CheckSecurity.CategoriasAndPlataformas.podeConsultar
+    @CheckSecurity.Geral.podeConsultar
     public PlataformaModel buscarPorId(@PathVariable Long plataformaId) {
         return assembler.toModel(service.buscarPorId(plataformaId));
     }
 
     @PostMapping
-    @CheckSecurity.CategoriasAndPlataformas.podeGerenciar
+    @CheckSecurity.Geral.podeGerenciar
     @ResponseStatus(HttpStatus.CREATED)
     public PlataformaModel adicionar(@Valid @RequestBody PlataformaRequest request) {
         var plataforma = assembler.toEntity(request);
@@ -42,7 +41,7 @@ public class PlataformaController {
     }
 
     @PutMapping("/{plataformaId}")
-    @CheckSecurity.CategoriasAndPlataformas.podeGerenciar
+    @CheckSecurity.Geral.podeGerenciar
     public PlataformaModel editar(@PathVariable Long plataformaId, @Valid @RequestBody PlataformaRequest request) {
         var plataforma = service.buscarPorId(plataformaId);
         assembler.copyToEntity(request, plataforma);
@@ -50,7 +49,7 @@ public class PlataformaController {
     }
 
     @DeleteMapping("/{plataformaId}")
-    @CheckSecurity.CategoriasAndPlataformas.podeGerenciar
+    @CheckSecurity.Geral.podeGerenciar
     public void remover(@PathVariable Long plataformaId) {
         service.remover(plataformaId);
     }

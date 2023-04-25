@@ -34,7 +34,6 @@ public class UsuarioService {
     @Transactional
     public Usuario salvar(Usuario usuario) {
         repository.detach(usuario);
-        System.out.println(usuario);
         checarEmailAndUsername(usuario);
 
         if (usuario.isNovo()) {

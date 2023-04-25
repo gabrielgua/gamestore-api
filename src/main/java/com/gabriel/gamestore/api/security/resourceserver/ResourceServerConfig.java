@@ -37,7 +37,8 @@ public class ResourceServerConfig {
                     authorize
                             .requestMatchers(HttpMethod.GET, "/jogos", "/jogos/*").permitAll()
                             .requestMatchers(HttpMethod.GET, "/plataformas", "/plataformas/*").permitAll()
-                            .requestMatchers(HttpMethod.GET, "/categorias", "/categorias/*").permitAll();
+                            .requestMatchers(HttpMethod.GET, "/categorias", "/categorias/*").permitAll()
+                            .requestMatchers(HttpMethod.GET, "/formas-pagamento", "/formas-pagamento/*").permitAll();
                 })
                 .authorizeHttpRequests().anyRequest().authenticated()
                 .and()

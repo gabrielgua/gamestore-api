@@ -27,7 +27,7 @@ public class JogoController {
     private JogoAssembler assembler;
 
     @GetMapping
-    @CheckSecurity.Jogos.podeConsultar
+    @CheckSecurity.Geral.podeConsultar
     public List<JogoResumoModel> listar() {
         return assembler.toCollectionModel(jogoService.listar());
     }
@@ -38,14 +38,14 @@ public class JogoController {
     }
 
     @PostMapping
-    @CheckSecurity.Jogos.podeGerenciar
+    @CheckSecurity.Geral.podeGerenciar
     public JogoModel adicionar(@Valid @RequestBody JogoRequest request) {
         var jogo = assembler.toEntity(request);
         return assembler.toModel(this.jogoService.salvar(jogo));
     }
 
     @PutMapping("/{jogoId}")
-    @CheckSecurity.Jogos.podeGerenciar
+    @CheckSecurity.Geral.podeGerenciar
     public JogoModel editar(@PathVariable Long jogoId, @Valid @RequestBody JogoRequest request) {
         var jogo = jogoService.buscarPorId(jogoId);
         assembler.copyToEntity(request, jogo);
@@ -53,7 +53,7 @@ public class JogoController {
     }
 
     @DeleteMapping("/{jogoId}")
-    @CheckSecurity.Jogos.podeGerenciar
+    @CheckSecurity.Geral.podeGerenciar
     public void remover(@PathVariable Long jogoId) {
         jogoService.remover(jogoId);
     }

@@ -5,7 +5,6 @@ import com.gabriel.gamestore.api.model.PedidoResumoModel;
 import com.gabriel.gamestore.api.model.request.PedidoRequest;
 import com.gabriel.gamestore.api.security.roleauthotization.AuthorizationConfig;
 import com.gabriel.gamestore.api.security.roleauthotization.CheckSecurity;
-import com.gabriel.gamestore.domain.model.Pedido;
 import com.gabriel.gamestore.domain.service.PedidoService;
 import com.gabriel.gamestore.domain.service.UsuarioService;
 import jakarta.validation.Valid;
