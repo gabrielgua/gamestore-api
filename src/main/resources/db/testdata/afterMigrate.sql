@@ -11,6 +11,8 @@ delete from jogo_categoria;
 delete from jogo_plataforma;
 delete from forma_pagamento;
 
+set foreign_key_checks = 1;
+
 
 alter table jogo auto_increment = 1;
 alter table pedido auto_increment = 1;
