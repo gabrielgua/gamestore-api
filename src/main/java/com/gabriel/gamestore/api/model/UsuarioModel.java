@@ -18,5 +18,4 @@ public class UsuarioModel {
     private String username;
     private String tipo;
     private OffsetDateTime dataCadastro;
-    private List<JogoResumoModel> jogos;
 }

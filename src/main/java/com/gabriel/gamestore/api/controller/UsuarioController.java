@@ -2,7 +2,6 @@ package com.gabriel.gamestore.api.controller;
 
 import com.gabriel.gamestore.api.assembler.UsuarioAssembler;
 import com.gabriel.gamestore.api.model.UsuarioModel;
-import com.gabriel.gamestore.api.model.UsuarioResumoModel;
 import com.gabriel.gamestore.api.model.request.SenhaRequest;
 import com.gabriel.gamestore.api.model.request.UsuarioComSenhaRequest;
 import com.gabriel.gamestore.api.model.request.UsuarioRequest;
@@ -24,7 +23,7 @@ public class UsuarioController {
 
     @GetMapping
     @CheckSecurity.Usuarios.podeConsultar
-    public List<UsuarioResumoModel> listar() {
+    public List<UsuarioModel> listar() {
         return assembler.toCollectionModel(service.listar());
     }
 

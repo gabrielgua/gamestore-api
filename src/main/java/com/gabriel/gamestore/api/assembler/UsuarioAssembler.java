@@ -1,7 +1,6 @@
 package com.gabriel.gamestore.api.assembler;
 
 import com.gabriel.gamestore.api.model.UsuarioModel;
-import com.gabriel.gamestore.api.model.UsuarioResumoModel;
 import com.gabriel.gamestore.api.model.request.UsuarioRequest;
 import com.gabriel.gamestore.domain.model.Usuario;
 import org.modelmapper.ModelMapper;
@@ -21,13 +20,9 @@ public class UsuarioAssembler {
         return modelMapper.map(usuario, UsuarioModel.class);
     }
 
-    public UsuarioResumoModel toResumoModel(Usuario usuario) {
-        return modelMapper.map(usuario, UsuarioResumoModel.class);
-    }
-
-    public List<UsuarioResumoModel> toCollectionModel(List<Usuario> usuarios) {
+    public List<UsuarioModel> toCollectionModel(List<Usuario> usuarios) {
         return usuarios.stream()
-                .map(this::toResumoModel)
+                .map(this::toModel)
                 .collect(Collectors.toList());
     }
 

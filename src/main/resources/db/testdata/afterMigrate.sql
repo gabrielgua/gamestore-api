@@ -13,7 +13,6 @@ delete from forma_pagamento;
 
 set foreign_key_checks = 1;
 
-
 alter table jogo auto_increment = 1;
 alter table pedido auto_increment = 1;
 alter table usuario auto_increment = 1;
@@ -53,7 +52,7 @@ insert into jogo_plataforma (jogo_id, plataforma_id) values
 
 insert into usuario (id, nome, username, tipo, email, senha, data_cadastro) values
 (1, "Gabriel", "opaco", "ADMIN", "gabriel.opaco@email.com", "$2a$12$Z7eR/rUV9CusNU3IEDtyhOhmos/sAQOv5W7MuEd/tU9lejmCdmzZ2", utc_timestamp),
-(2, null, "usuarioGamer", "USER", "usuario.gamer@email.com", "$2a$12$Z7eR/rUV9CusNU3IEDtyhOhmos/sAQOv5W7MuEd/tU9lejmCdmzZ2", utc_timestamp);
+(2, null, "usuario", "USER", "usuario.gamer@email.com", "$2a$12$Z7eR/rUV9CusNU3IEDtyhOhmos/sAQOv5W7MuEd/tU9lejmCdmzZ2", utc_timestamp);
 
 insert into usuario_jogo (usuario_id, jogo_id) values
 (1, 1), (1, 3), (1, 5),

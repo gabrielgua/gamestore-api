@@ -1,7 +1,7 @@
 package com.gabriel.gamestore.api.controller;
 
 import com.gabriel.gamestore.api.assembler.PedidoAssembler;
-import com.gabriel.gamestore.api.model.PedidoResumoModel;
+import com.gabriel.gamestore.api.model.PedidoModel;
 import com.gabriel.gamestore.api.model.request.PedidoRequest;
 import com.gabriel.gamestore.api.security.roleauthotization.AuthorizationConfig;
 import com.gabriel.gamestore.api.security.roleauthotization.CheckSecurity;
@@ -31,26 +31,26 @@ public class PedidoController {
 
     @GetMapping
     @CheckSecurity.Pedidos.podeConsultar
-    public List<PedidoResumoModel> listar() {
+    public List<PedidoModel> listar() {
         return assembler.toCollectionModel(pedidoService.listar());
     }
 
     @GetMapping(params = "id")
     @CheckSecurity.Pedidos.podeConsultar
-    public PedidoResumoModel buscarPorId(@RequestParam("id") Long pedidoId) {
+    public PedidoModel buscarPorId(@RequestParam("id") Long pedidoId) {
         return assembler.toResumoModel(pedidoService.buscarPorId(pedidoId));
     }
 
     @GetMapping(params = "codigo")
     @CheckSecurity.Pedidos.podeConsultar
-    public PedidoResumoModel buscarPorCodigo(@RequestParam("codigo") String codigoPedido) {
+    public PedidoModel buscarPorCodigo(@RequestParam("codigo") String codigoPedido) {
         return assembler.toResumoModel(pedidoService.buscarPorCodigo(codigoPedido));
     }
 
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
     @CheckSecurity.Pedidos.podeAdicionar
-    public PedidoResumoModel fazerPedido(@Valid @RequestBody PedidoRequest request) {
+    public PedidoModel fazerPedido(@Valid @RequestBody PedidoRequest request) {
         var pedido = assembler.toEntity(request);
         var usuario = usuarioService.buscarPorId(authConfig.getUsuarioId());
         var formaPagamento = formaPagamentoService.buscarPorId(request.getFormaPagamento().getId());

@@ -1,6 +1,6 @@
 package com.gabriel.gamestore.api.assembler;
 
-import com.gabriel.gamestore.api.model.PedidoResumoModel;
+import com.gabriel.gamestore.api.model.PedidoModel;
 import com.gabriel.gamestore.api.model.request.PedidoRequest;
 import com.gabriel.gamestore.domain.model.Pedido;
 import org.modelmapper.ModelMapper;
@@ -15,15 +15,15 @@ public class PedidoAssembler {
     @Autowired
     private ModelMapper modelMapper;
 
-    public PedidoResumoModel toResumoModel(Pedido pedido) {
-        return modelMapper.map(pedido, PedidoResumoModel.class);
+    public PedidoModel toResumoModel(Pedido pedido) {
+        return modelMapper.map(pedido, PedidoModel.class);
     }
 
     public Pedido toEntity(PedidoRequest request) {
         return modelMapper.map(request, Pedido.class);
     }
 
-    public List<PedidoResumoModel> toCollectionModel(List<Pedido> pedidos) {
+    public List<PedidoModel> toCollectionModel(List<Pedido> pedidos) {
         return pedidos.stream()
                 .map(this::toResumoModel)
                 .toList();

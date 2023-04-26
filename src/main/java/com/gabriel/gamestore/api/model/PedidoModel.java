@@ -11,12 +11,12 @@ import java.util.List;
 @Getter
 @Setter
 @JsonInclude(JsonInclude.Include.NON_NULL)
-public class PedidoResumoModel {
+public class PedidoModel {
 
     private Long id;
     private String codigo;
     private BigDecimal valorTotal;
-    private FormaPagamentoPedidoModel formaPagamento;
+    private FormaPagamentoModel formaPagamento;
     private OffsetDateTime dataCriacao;
     private OffsetDateTime dataCancelamento;
     private OffsetDateTime dataConfirmacao;
