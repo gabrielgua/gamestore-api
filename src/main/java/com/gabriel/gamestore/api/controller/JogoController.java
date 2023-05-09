@@ -5,17 +5,12 @@ import com.gabriel.gamestore.api.model.JogoModel;
 import com.gabriel.gamestore.api.model.JogoResumoModel;
 import com.gabriel.gamestore.api.model.request.JogoRequest;
 import com.gabriel.gamestore.api.security.roleauthotization.CheckSecurity;
-import com.gabriel.gamestore.domain.model.Categoria;
-import com.gabriel.gamestore.domain.service.CategoriaService;
 import com.gabriel.gamestore.domain.service.JogoService;
-import com.gabriel.gamestore.domain.service.PlataformaService;
 import jakarta.validation.Valid;
 import lombok.AllArgsConstructor;
-import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
-import java.util.Set;
 
 @RestController
 @AllArgsConstructor
@@ -32,9 +27,14 @@ public class JogoController {
         return assembler.toCollectionModel(jogoService.listar());
     }
 
-    @GetMapping("/{jogoId}")
-    public JogoModel buscarPorId(@PathVariable Long jogoId) {
+    @GetMapping(params = "id")
+    public JogoModel buscarPorId(@RequestParam("id") Long jogoId) {
         return assembler.toModel(jogoService.buscarPorId(jogoId));
+    }
+
+    @GetMapping(params = "nome")
+    public JogoModel buscarPorUriNome(@RequestParam("nome") String uriNome) {
+        return assembler.toModel(jogoService.buscarPorUriNome(uriNome));
     }
 
     @PostMapping

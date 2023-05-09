@@ -2,6 +2,7 @@ package com.gabriel.gamestore.domain.service;
 
 import com.gabriel.gamestore.domain.exception.EntidadeEmUsoException;
 import com.gabriel.gamestore.domain.exception.JogoNaoEncontradoException;
+import com.gabriel.gamestore.domain.exception.NegocioException;
 import com.gabriel.gamestore.domain.model.Categoria;
 import com.gabriel.gamestore.domain.model.Jogo;
 import com.gabriel.gamestore.domain.model.Plataforma;
@@ -32,6 +33,11 @@ public class JogoService {
         return repository.findById(jogoId).orElseThrow(() -> new JogoNaoEncontradoException(jogoId));
     }
 
+    @Transactional
+    public Jogo buscarPorUriNome(String uriNome) {
+        return repository.findByUriNome(uriNome).orElseThrow(() -> new JogoNaoEncontradoException(uriNome));
+    }
+
     @Transactional(readOnly = true)
     public List<Jogo> buscarVariosPorId(List<Long> jogosIds) {
         return jogosIds.stream()
@@ -41,7 +47,9 @@ public class JogoService {
 
     @Transactional
     public Jogo salvar(Jogo jogo) {
-        jogo.setUriNome(transformarNomeToUriNome(jogo.getNome()));
+        var uriNome = transformarNomeToUriNome(jogo.getNome());
+        verificarUriNomeJaCadastrado(uriNome);
+        jogo.setUriNome(uriNome);
         return repository.save(jogo);
     }
 
@@ -94,13 +102,17 @@ public class JogoService {
     private String transformarNomeToUriNome(String nome) {
         String stringTransformada = nome.toLowerCase();
         stringTransformada = stringTransformada.replaceAll("[^a-z A-Z0-9]", "");
+        stringTransformada = stringTransformada.replaceAll(" +", " ");
         stringTransformada = stringTransformada.replaceAll(" ", "-");
 
         System.out.println(stringTransformada);
-
-
         return stringTransformada;
     }
 
-
+    private void verificarUriNomeJaCadastrado(String uriNome) {
+        var jogo = repository.findByUriNome(uriNome);
+        if (jogo.isPresent()) {
+            throw new NegocioException(String.format("Jogo '%s' já está cadastrado.", jogo.get().getNome()));
+        }
+    }
 }
