@@ -14,6 +14,8 @@ public class UsuarioModel {
 
     private Long id;
     private String nome;
+
+    private String uriNome;
     private String email;
     private String username;
     private String tipo;

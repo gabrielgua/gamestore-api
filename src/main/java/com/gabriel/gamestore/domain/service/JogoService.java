@@ -41,6 +41,7 @@ public class JogoService {
 
     @Transactional
     public Jogo salvar(Jogo jogo) {
+        jogo.setUriNome(transformarNomeToUriNome(jogo.getNome()));
         return repository.save(jogo);
     }
 
@@ -90,7 +91,16 @@ public class JogoService {
     }
 
 
+    private String transformarNomeToUriNome(String nome) {
+        String stringTransformada = nome.toLowerCase();
+        stringTransformada = stringTransformada.replaceAll("[^a-z A-Z0-9]", "");
+        stringTransformada = stringTransformada.replaceAll(" ", "-");
 
+        System.out.println(stringTransformada);
+
+
+        return stringTransformada;
+    }
 
 
 }

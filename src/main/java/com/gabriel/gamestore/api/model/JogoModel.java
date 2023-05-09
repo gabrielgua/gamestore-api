@@ -13,6 +13,7 @@ import java.util.Set;
 public class JogoModel {
     private Long id;
     private String nome;
+    private String uriNome;
     private String descricao;
     private BigDecimal preco;
     private BigDecimal nota;
