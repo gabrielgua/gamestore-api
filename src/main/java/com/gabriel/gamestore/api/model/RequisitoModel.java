@@ -12,6 +12,7 @@ public class RequisitoModel {
 
     private Long id;
     private TipoRequisito tipo;
+    private String observacoes;
     private String sistema;
     private String memoria;
     private String processador;

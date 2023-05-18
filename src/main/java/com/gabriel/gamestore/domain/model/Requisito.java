@@ -17,6 +17,7 @@ public class Requisito {
     private Jogo jogo;
     @Enumerated(EnumType.STRING)
     private TipoRequisito tipo;
+    private String observacoes;
     private String sistema;
     private String memoria;
     private String processador;

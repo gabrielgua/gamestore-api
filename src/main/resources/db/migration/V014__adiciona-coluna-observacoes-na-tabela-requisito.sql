@@ -1,0 +1,1 @@
+alter table requisito add column observacoes varchar(250) after tipo;
