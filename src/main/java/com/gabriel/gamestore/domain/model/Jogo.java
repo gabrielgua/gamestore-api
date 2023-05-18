@@ -22,6 +22,9 @@ public class Jogo {
     private String descricao;
     private BigDecimal preco;
     private BigDecimal nota;
+    @OneToMany(mappedBy = "jogo")
+    private Set<Requisito> requisitos;
+
     @ManyToMany
     @JoinTable(name = "jogo_categoria",
             joinColumns = @JoinColumn(name = "jogo_id"),

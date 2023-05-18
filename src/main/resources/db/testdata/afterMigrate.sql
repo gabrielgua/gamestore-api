@@ -3,6 +3,7 @@ set foreign_key_checks = 0;
 delete from jogo;
 delete from pedido;
 delete from usuario;
+delete from requisito;
 delete from categoria;
 delete from plataforma;
 delete from pedido_jogo;
@@ -16,13 +17,14 @@ set foreign_key_checks = 1;
 alter table jogo auto_increment = 1;
 alter table pedido auto_increment = 1;
 alter table usuario auto_increment = 1;
+alter table requisito auto_increment = 1;
 alter table categoria auto_increment = 1;
 alter table plataforma auto_increment = 1;
 alter table forma_pagamento auto_increment = 1;
 
 insert into jogo (id, nome, uri_nome,descricao, preco, nota) values
 (1, 'Dark Souls™: Remastered', 'dark-souls-remastered','Bate e rola 1.', 129.90, 9.8),
-(2, 'Dark Souls™ II: Scholar of The First Sin', 'dark-souls-ii-scholar-of-the-first-sin','Bom jogo, porém os únicos bosses bons são os das DLCs.', 179.90, 7.8),
+(2, 'Dark Souls™ II: Scholar of The First Sin', 'dark-souls-ii-scholar-of-the-first-sin','DARK SOULS™ II: Scholar of the First Sin leva a renomada obscuridade e jogabilidade viciante da franquia a um novo nível. Junte-se à jornada sombria e vivencie encontros com inimigos devastadores, perigos diabólicos e o desafio implacável.', 179.90, 7.8),
 (3, 'Dark Souls™ III', 'dark-souls-iii', 'Bate e rola 3, boss fights mais cinematográficas da franquia SOULS', 259.89, 9.2),
 (4, 'Counter-Strike: Global Offensive', 'counter-strike-global-offensive','Pai dos jogos de tiro.', 79.90, 8.9),
 (5, 'Counter Strike 2', 'counter-strike-2', 'Por favor Valve me deixa testar.', 0.0, 8.8),
