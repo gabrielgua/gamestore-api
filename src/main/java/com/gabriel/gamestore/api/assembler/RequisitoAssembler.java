@@ -29,4 +29,8 @@ public class RequisitoAssembler {
                 .map(this::toModel)
                 .toList();
     }
+
+    public void copyToEntity(RequisitoRequest request, Requisito requisito) {
+        modelMapper.map(request, requisito);
+    }
 }

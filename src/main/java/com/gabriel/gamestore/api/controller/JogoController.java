@@ -1,22 +1,19 @@
 package com.gabriel.gamestore.api.controller;
 
 import com.gabriel.gamestore.api.assembler.JogoAssembler;
-import com.gabriel.gamestore.api.assembler.RequisitoAssembler;
 import com.gabriel.gamestore.api.model.JogoModel;
 import com.gabriel.gamestore.api.model.JogoResumoModel;
 import com.gabriel.gamestore.api.model.request.JogoRequest;
 import com.gabriel.gamestore.api.security.roleauthotization.CheckSecurity;
-import com.gabriel.gamestore.domain.model.Requisito;
-import com.gabriel.gamestore.domain.repository.RequisitoRepository;
+import com.gabriel.gamestore.domain.service.CategoriaService;
 import com.gabriel.gamestore.domain.service.JogoService;
+import com.gabriel.gamestore.domain.service.PlataformaService;
 import com.gabriel.gamestore.domain.service.RequisitoService;
 import jakarta.validation.Valid;
 import lombok.AllArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
-import java.util.Set;
-import java.util.stream.Collectors;
 
 @RestController
 @AllArgsConstructor
@@ -24,12 +21,13 @@ import java.util.stream.Collectors;
 public class JogoController {
 
     private JogoService jogoService;
+    private JogoAssembler jogoAssembler;
     private RequisitoService requisitoService;
 
-    private JogoAssembler jogoAssembler;
-    private RequisitoAssembler requisitoAssembler;
+    private CategoriaService categoriaService;
 
-    private RequisitoRepository requisitoRepository;
+    private PlataformaService plataformaService;
+
 
     @GetMapping
     @CheckSecurity.Geral.podeConsultar
@@ -51,18 +49,13 @@ public class JogoController {
     @CheckSecurity.Geral.podeGerenciar
     public JogoModel adicionar(@Valid @RequestBody JogoRequest request) {
         var jogo = jogoAssembler.toEntity(request);
-        var requisitos = request.getRequisitos().stream()
-                        .map(r -> requisitoAssembler.toEntity(r))
-                        .collect(Collectors.toList());
+        var categorias = categoriaService.buscarVariosPorIds(request.getCategorias());
+        var plataformas = plataformaService.buscarVariosPorId(request.getPlataformas());
 
+        jogoService.editarCategorias(jogo, categorias);
+        jogoService.editarPlataformas(jogo, plataformas);
 
-        jogoService.salvar(jogo);
-        requisitos.forEach(requisito -> requisito.setJogo(jogo));
-        requisitoRepository.saveAll(requisitos);
-
-        jogo.setRequisitos(Set.copyOf(requisitos));
-
-        return jogoAssembler.toModel(jogo);
+        return jogoAssembler.toModel(jogoService.salvar(jogo));
     }
 
     @PutMapping("/{jogoId}")
@@ -70,6 +63,13 @@ public class JogoController {
     public JogoModel editar(@PathVariable Long jogoId, @Valid @RequestBody JogoRequest request) {
         var jogo = jogoService.buscarPorId(jogoId);
         jogoAssembler.copyToEntity(request, jogo);
+
+        var categorias = categoriaService.buscarVariosPorIds(request.getCategorias());
+        var plataformas = plataformaService.buscarVariosPorId(request.getPlataformas());
+
+        jogoService.editarCategorias(jogo, categorias);
+        jogoService.editarPlataformas(jogo, plataformas);
+
         return jogoAssembler.toModel(jogoService.salvar(jogo));
     }
 

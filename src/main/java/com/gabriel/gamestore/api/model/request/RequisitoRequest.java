@@ -1,18 +1,19 @@
 package com.gabriel.gamestore.api.model.request;
 
-import jakarta.validation.constraints.NotBlank;
+import com.gabriel.gamestore.domain.model.TipoRequisito;
+import jakarta.validation.constraints.NotNull;
 import lombok.Getter;
 import lombok.Setter;
 
 @Getter
 @Setter
 public class RequisitoRequest {
-    @NotBlank
-    private String descricao;
+
+    @NotNull
+    private TipoRequisito tipo;
     private String sistema;
     private String memoria;
     private String processador;
     private String placaDeVideo;
-
     private String armazenamento;
 }

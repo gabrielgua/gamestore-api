@@ -18,7 +18,9 @@ public class JogoModel {
     private String descricao;
     private BigDecimal preco;
     private BigDecimal nota;
+
+    private Set<RequisitoModel> requisitos;
     private Set<CategoriaModel> categorias;
     private Set<PlataformaModel> plataformas;
-    private Set<RequisitoModel> requisitos;
+
 }

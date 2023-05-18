@@ -14,6 +14,8 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.util.HashSet;
 import java.util.List;
+import java.util.Objects;
+import java.util.Set;
 import java.util.stream.Collectors;
 
 @Service
@@ -32,41 +34,33 @@ public class JogoService {
     public Jogo buscarPorId(Long jogoId) {
         return repository.findById(jogoId).orElseThrow(() -> new JogoNaoEncontradoException(jogoId));
     }
-
     @Transactional
     public Jogo buscarPorUriNome(String uriNome) {
         return repository.findByUriNome(uriNome).orElseThrow(() -> new JogoNaoEncontradoException(uriNome));
     }
-
     @Transactional(readOnly = true)
     public List<Jogo> buscarVariosPorId(List<Long> jogosIds) {
         return jogosIds.stream()
                 .map(this::buscarPorId)
                 .collect(Collectors.toList());
     }
-
     @Transactional
     public Jogo salvar(Jogo jogo) {
         var uriNome = transformarNomeToUriNome(jogo.getNome());
-        verificarUriNomeJaCadastrado(uriNome);
+        verificarUriNomeJaCadastrado(uriNome, jogo.getId());
         jogo.setUriNome(uriNome);
         return repository.save(jogo);
     }
-
-
     @Transactional
     public void editarCategorias(Jogo jogo, List<Categoria> categorias) {
         jogo.setCategorias(new HashSet<>());
         adicionarCategorias(jogo, categorias);
     }
-
     @Transactional
     public void editarPlataformas(Jogo jogo, List<Plataforma> plataformas) {
         jogo.setPlataformas(new HashSet<>());
         adicionarPlataformas(jogo, plataformas);
     }
-
-
     @Transactional
     public void adicionarCategorias(Jogo jogo, List<Categoria> categorias) {
         categorias.forEach(jogo::addCategoria);
@@ -104,14 +98,12 @@ public class JogoService {
         stringTransformada = stringTransformada.replaceAll("[^a-z A-Z0-9]", "");
         stringTransformada = stringTransformada.replaceAll(" +", " ");
         stringTransformada = stringTransformada.replaceAll(" ", "-");
-
-        System.out.println(stringTransformada);
         return stringTransformada;
     }
 
-    private void verificarUriNomeJaCadastrado(String uriNome) {
+    private void verificarUriNomeJaCadastrado(String uriNome, Long jogoId) {
         var jogo = repository.findByUriNome(uriNome);
-        if (jogo.isPresent()) {
+        if (jogo.isPresent() && !Objects.equals(jogo.get().getId(), jogoId)) {
             throw new NegocioException(String.format("Jogo '%s' já está cadastrado.", jogo.get().getNome()));
         }
     }

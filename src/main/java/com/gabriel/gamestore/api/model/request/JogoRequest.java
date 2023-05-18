@@ -22,7 +22,9 @@ public class JogoRequest {
     private BigDecimal preco;
     @NotNull
     private BigDecimal nota;
-    @Valid
+
     @NotNull
-    private Set<RequisitoRequest> requisitos;
+    private Set<Long> categorias;
+    @NotNull
+    private Set<Long> plataformas;
 }

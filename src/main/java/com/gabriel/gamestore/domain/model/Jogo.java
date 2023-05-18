@@ -51,4 +51,5 @@ public class Jogo {
     public void delPlataforma(Plataforma plataforma) {
         plataformas.remove(plataforma);
     }
+
 }

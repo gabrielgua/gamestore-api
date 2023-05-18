@@ -15,8 +15,8 @@ public class Requisito {
     private Long id;
     @ManyToOne
     private Jogo jogo;
-
-    private String descricao;
+    @Enumerated(EnumType.STRING)
+    private TipoRequisito tipo;
     private String sistema;
     private String memoria;
     private String processador;
