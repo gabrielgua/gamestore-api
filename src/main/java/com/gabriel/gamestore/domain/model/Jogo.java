@@ -5,7 +5,9 @@ import lombok.Data;
 import lombok.EqualsAndHashCode;
 
 import java.math.BigDecimal;
+import java.time.OffsetDateTime;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 
 @Entity
@@ -22,6 +24,10 @@ public class Jogo {
     private String descricao;
     private BigDecimal preco;
     private BigDecimal nota;
+    private OffsetDateTime dataLancamento;
+    @ManyToOne
+    private Desenvolvedora desenvolvedora;
+
     @OneToMany(mappedBy = "jogo")
     private Set<Requisito> requisitos;
 

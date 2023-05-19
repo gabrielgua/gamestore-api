@@ -1,0 +1,1 @@
+alter table jogo add column data_lancamento datetime not null after uri_nome;

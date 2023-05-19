@@ -5,5 +5,11 @@ import lombok.Getter;
 @Getter
 public enum TipoRequisito {
 
-    MINIMOS, RECOMENDADOS, CONSOLES
+    MINIMOS("Mínimos"), RECOMENDADOS("Recomendados"), CONSOLES("Consoles");
+
+    private final String descricao;
+
+    TipoRequisito(String descricao) {
+        this.descricao = descricao;
+    }
 }

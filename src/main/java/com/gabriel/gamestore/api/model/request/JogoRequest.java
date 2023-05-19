@@ -8,6 +8,7 @@ import lombok.Getter;
 import lombok.Setter;
 
 import java.math.BigDecimal;
+import java.time.OffsetDateTime;
 import java.util.Set;
 
 @Getter
@@ -24,7 +25,13 @@ public class JogoRequest {
     private BigDecimal nota;
 
     @NotNull
+    private OffsetDateTime dataLancamento;
+
+    @NotNull
     private Set<Long> categorias;
     @NotNull
     private Set<Long> plataformas;
+    @Valid
+    @NotNull
+    private DesenvolvedoraIdRequest desenvolvedora;
 }

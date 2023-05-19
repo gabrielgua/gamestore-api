@@ -3,7 +3,7 @@ create table requisito (
     jogo_id bigint not null,
     descricao varchar(250) not null,
     sistema varchar(150) null,
-    memoria varchar(10) null,
+    memoria varchar(50) null,
     processador varchar(250) null,
     placa_de_video varchar(250) null,
     armazenamento varchar(150) null,

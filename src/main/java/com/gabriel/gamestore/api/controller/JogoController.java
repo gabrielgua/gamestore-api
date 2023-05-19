@@ -5,14 +5,13 @@ import com.gabriel.gamestore.api.model.JogoModel;
 import com.gabriel.gamestore.api.model.JogoResumoModel;
 import com.gabriel.gamestore.api.model.request.JogoRequest;
 import com.gabriel.gamestore.api.security.roleauthotization.CheckSecurity;
-import com.gabriel.gamestore.domain.service.CategoriaService;
-import com.gabriel.gamestore.domain.service.JogoService;
-import com.gabriel.gamestore.domain.service.PlataformaService;
-import com.gabriel.gamestore.domain.service.RequisitoService;
+import com.gabriel.gamestore.domain.model.Jogo;
+import com.gabriel.gamestore.domain.service.*;
 import jakarta.validation.Valid;
 import lombok.AllArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 
+import java.time.OffsetDateTime;
 import java.util.List;
 
 @RestController
@@ -22,8 +21,8 @@ public class JogoController {
 
     private JogoService jogoService;
     private JogoAssembler jogoAssembler;
-    private RequisitoService requisitoService;
 
+    private DesenvolvedoraService desenvolvedoraService;
     private CategoriaService categoriaService;
 
     private PlataformaService plataformaService;
@@ -49,9 +48,12 @@ public class JogoController {
     @CheckSecurity.Geral.podeGerenciar
     public JogoModel adicionar(@Valid @RequestBody JogoRequest request) {
         var jogo = jogoAssembler.toEntity(request);
+        var desenvolvedoraId = request.getDesenvolvedora().getId();
+        var desenvolvedora = desenvolvedoraService.buscarPorId(desenvolvedoraId);
         var categorias = categoriaService.buscarVariosPorIds(request.getCategorias());
         var plataformas = plataformaService.buscarVariosPorId(request.getPlataformas());
 
+        jogo.setDesenvolvedora(desenvolvedora);
         jogoService.editarCategorias(jogo, categorias);
         jogoService.editarPlataformas(jogo, plataformas);
 
