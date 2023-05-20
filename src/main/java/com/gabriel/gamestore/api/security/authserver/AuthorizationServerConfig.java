@@ -62,7 +62,7 @@ public class AuthorizationServerConfig {
                 .tokenSettings(TokenSettings.builder()
                         .accessTokenTimeToLive(Duration.ofMinutes(30))
                         .refreshTokenTimeToLive(Duration.ofDays(10))
-                        .reuseRefreshTokens(false)
+                        .reuseRefreshTokens(true)
                         .build())
                 .clientSettings(ClientSettings.builder()
                         .requireAuthorizationConsent(false)

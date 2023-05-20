@@ -4,6 +4,7 @@ import com.gabriel.gamestore.api.model.JogoModel;
 import com.gabriel.gamestore.api.model.JogoResumoModel;
 import com.gabriel.gamestore.api.model.request.JogoRequest;
 import com.gabriel.gamestore.domain.model.Categoria;
+import com.gabriel.gamestore.domain.model.Desenvolvedora;
 import com.gabriel.gamestore.domain.model.Jogo;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -32,6 +33,8 @@ public class JogoAssembler {
     }
 
     public void copyToEntity(JogoRequest request, Jogo jogo) {
+        // Para evitar Exception do JPA org.hibernate.HibernateException: Tried to change the Identifier of an instance...
+        jogo.setDesenvolvedora(new Desenvolvedora());
         modelMapper.map(request, jogo);
     }
 

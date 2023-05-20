@@ -24,6 +24,11 @@ public class JogoService {
 
     private JogoRepository repository;
 
+    private DesenvolvedoraService desenvolvedoraService;
+
+    private PlataformaService plataformaService;
+    private CategoriaService categoriaService;
+
 
     @Transactional(readOnly = true)
     public List<Jogo> listar() {
@@ -34,7 +39,7 @@ public class JogoService {
     public Jogo buscarPorId(Long jogoId) {
         return repository.findById(jogoId).orElseThrow(() -> new JogoNaoEncontradoException(jogoId));
     }
-    @Transactional
+    @Transactional(readOnly = true)
     public Jogo buscarPorUriNome(String uriNome) {
         return repository.findByUriNome(uriNome).orElseThrow(() -> new JogoNaoEncontradoException(uriNome));
     }
@@ -45,40 +50,19 @@ public class JogoService {
                 .collect(Collectors.toList());
     }
     @Transactional
-    public Jogo salvar(Jogo jogo) {
+    public Jogo salvar(Jogo jogo, Set<Long> plataformaIds, Set<Long> categoriaIds) {
+
+        var desenvolvedora = desenvolvedoraService.buscarPorId(jogo.getDesenvolvedora().getId());
         var uriNome = transformarNomeToUriNome(jogo.getNome());
         verificarUriNomeJaCadastrado(uriNome, jogo.getId());
+
+        adicionarPlataformas(jogo, plataformaIds);
+        adicionarCategorias(jogo, categoriaIds);
+
         jogo.setUriNome(uriNome);
+        jogo.setDesenvolvedora(desenvolvedora);
+
         return repository.save(jogo);
-    }
-    @Transactional
-    public void editarCategorias(Jogo jogo, List<Categoria> categorias) {
-        jogo.setCategorias(new HashSet<>());
-        adicionarCategorias(jogo, categorias);
-    }
-    @Transactional
-    public void editarPlataformas(Jogo jogo, List<Plataforma> plataformas) {
-        jogo.setPlataformas(new HashSet<>());
-        adicionarPlataformas(jogo, plataformas);
-    }
-    @Transactional
-    public void adicionarCategorias(Jogo jogo, List<Categoria> categorias) {
-        categorias.forEach(jogo::addCategoria);
-    }
-
-    @Transactional
-    public void removerCategorias(Jogo jogo, List<Categoria> categorias) {
-        categorias.forEach(jogo::delCategoria);
-    }
-
-    @Transactional
-    public void adicionarPlataformas(Jogo jogo, List<Plataforma> plataformas) {
-        plataformas.forEach(jogo::addPlataforma);
-    }
-
-    @Transactional
-    public void removerPlataformas(Jogo jogo, List<Plataforma> plataformas) {
-        plataformas.forEach(jogo::delPlataforma);
     }
 
     @Transactional
@@ -92,6 +76,21 @@ public class JogoService {
         }
     }
 
+    @Transactional
+    public void adicionarPlataformas(Jogo jogo, Set<Long> plataformaIds) {
+        jogo.setPlataformas(new HashSet<>());
+        var plataformas = plataformaService.buscarVariosPorId(plataformaIds);
+
+        plataformas.forEach(jogo::addPlataforma);
+    }
+
+    @Transactional
+    public void adicionarCategorias(Jogo jogo, Set<Long> categoriaIds) {
+        jogo.setCategorias(new HashSet<>());
+        var categorias = categoriaService.buscarVariosPorIds(categoriaIds);
+
+        categorias.forEach(jogo::addCategoria);
+    }
 
     private String transformarNomeToUriNome(String nome) {
         String stringTransformada = nome.toLowerCase();

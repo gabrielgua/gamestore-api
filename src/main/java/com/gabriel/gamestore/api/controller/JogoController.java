@@ -48,16 +48,10 @@ public class JogoController {
     @CheckSecurity.Geral.podeGerenciar
     public JogoModel adicionar(@Valid @RequestBody JogoRequest request) {
         var jogo = jogoAssembler.toEntity(request);
-        var desenvolvedoraId = request.getDesenvolvedora().getId();
-        var desenvolvedora = desenvolvedoraService.buscarPorId(desenvolvedoraId);
-        var categorias = categoriaService.buscarVariosPorIds(request.getCategorias());
-        var plataformas = plataformaService.buscarVariosPorId(request.getPlataformas());
 
-        jogo.setDesenvolvedora(desenvolvedora);
-        jogoService.editarCategorias(jogo, categorias);
-        jogoService.editarPlataformas(jogo, plataformas);
-
-        return jogoAssembler.toModel(jogoService.salvar(jogo));
+        var categoriaIds =  request.getCategorias();
+        var plataformaIds = request.getPlataformas();
+        return jogoAssembler.toModel(jogoService.salvar(jogo, plataformaIds, categoriaIds));
     }
 
     @PutMapping("/{jogoId}")
@@ -66,13 +60,9 @@ public class JogoController {
         var jogo = jogoService.buscarPorId(jogoId);
         jogoAssembler.copyToEntity(request, jogo);
 
-        var categorias = categoriaService.buscarVariosPorIds(request.getCategorias());
-        var plataformas = plataformaService.buscarVariosPorId(request.getPlataformas());
-
-        jogoService.editarCategorias(jogo, categorias);
-        jogoService.editarPlataformas(jogo, plataformas);
-
-        return jogoAssembler.toModel(jogoService.salvar(jogo));
+        var categoriaIds =  request.getCategorias();
+        var plataformaIds = request.getPlataformas();
+        return jogoAssembler.toModel(jogoService.salvar(jogo, plataformaIds, categoriaIds));
     }
 
     @DeleteMapping("/{jogoId}")
