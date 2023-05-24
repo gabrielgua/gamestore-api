@@ -5,13 +5,11 @@ import com.gabriel.gamestore.api.model.JogoModel;
 import com.gabriel.gamestore.api.model.JogoResumoModel;
 import com.gabriel.gamestore.api.model.request.JogoRequest;
 import com.gabriel.gamestore.api.security.roleauthotization.CheckSecurity;
-import com.gabriel.gamestore.domain.model.Jogo;
 import com.gabriel.gamestore.domain.service.*;
 import jakarta.validation.Valid;
 import lombok.AllArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 
-import java.time.OffsetDateTime;
 import java.util.List;
 
 @RestController
@@ -31,7 +29,13 @@ public class JogoController {
     @GetMapping
     @CheckSecurity.Geral.podeConsultar
     public List<JogoResumoModel> listar() {
-        return jogoAssembler.toCollectionModel(jogoService.listar());
+        return jogoAssembler.toCollectionResumoModel(jogoService.listar());
+    }
+
+    @GetMapping("/destaques")
+    @CheckSecurity.Geral.podeConsultar
+    public List<JogoModel> listarJogosEmDestaque() {
+        return jogoAssembler.toCollectionModel(jogoService.listarDestaques());
     }
 
     @GetMapping(params = "id")

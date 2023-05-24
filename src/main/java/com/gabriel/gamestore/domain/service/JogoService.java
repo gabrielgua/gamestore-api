@@ -12,15 +12,14 @@ import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.HashSet;
-import java.util.List;
-import java.util.Objects;
-import java.util.Set;
+import java.util.*;
 import java.util.stream.Collectors;
 
 @Service
 @AllArgsConstructor
 public class JogoService {
+
+    private static final int NUM_LISTA_DESTAQUE = 5;
 
     private JogoRepository repository;
 
@@ -34,6 +33,23 @@ public class JogoService {
     public List<Jogo> listar() {
         return repository.findAll();
     }
+
+    @Transactional(readOnly = true)
+    public List<Jogo> listarDestaques() {
+        var random = new Random();
+        var jogos = repository.findAll();
+        Set<Jogo> randomJogos = new HashSet<>();
+
+        while (randomJogos.size() < NUM_LISTA_DESTAQUE) {
+            var randomIndex = random.nextInt(jogos.size());
+            randomJogos.add(jogos.get(randomIndex));
+        }
+
+        var randomJogosList = new ArrayList<>(randomJogos.stream().toList());
+        Collections.shuffle(randomJogosList);
+        return randomJogosList;
+    }
+
 
     @Transactional(readOnly = true)
     public Jogo buscarPorId(Long jogoId) {

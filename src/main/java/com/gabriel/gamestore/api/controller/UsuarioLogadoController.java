@@ -43,7 +43,7 @@ public class UsuarioLogadoController {
     public List<JogoResumoModel> buscarJogosUsuarioLogado() {
         var usuario = usuarioService.buscarPorId(authorizationConfig.getUsuarioId());
         var jogos = usuario.getJogos();
-        return jogoAssembler.toCollectionModel(jogos.stream().toList());
+        return jogoAssembler.toCollectionResumoModel(jogos.stream().toList());
     }
 
 

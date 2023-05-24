@@ -23,7 +23,7 @@ public class UsuarioJogoController {
     @CheckSecurity.UsuarioJogos.podeListar
     public List<JogoResumoModel> listarJogos(@PathVariable Long usuarioId) {
         var usuario = usuarioService.buscarPorId(usuarioId);
-        return jogoAssembler.toCollectionModel(usuario.getJogos().stream().toList());
+        return jogoAssembler.toCollectionResumoModel(usuario.getJogos().stream().toList());
     }
 
     @PutMapping
@@ -34,7 +34,7 @@ public class UsuarioJogoController {
 
         usuarioService.adicionarJogos(usuario, jogos);
         usuarioService.salvar(usuario);
-        return jogoAssembler.toCollectionModel(usuario.getJogos().stream().toList());
+        return jogoAssembler.toCollectionResumoModel(usuario.getJogos().stream().toList());
     }
 
     @DeleteMapping
@@ -45,7 +45,7 @@ public class UsuarioJogoController {
 
         usuarioService.removerJogos(usuario, jogos);
         usuarioService.salvar(usuario);
-        return jogoAssembler.toCollectionModel(usuario.getJogos().stream().toList());
+        return jogoAssembler.toCollectionResumoModel(usuario.getJogos().stream().toList());
     }
 
 
