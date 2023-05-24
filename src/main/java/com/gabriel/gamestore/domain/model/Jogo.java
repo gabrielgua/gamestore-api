@@ -28,6 +28,9 @@ public class Jogo {
     @ManyToOne
     private Desenvolvedora desenvolvedora;
 
+    private String urlVideo;
+    private String urlImagem;
+
     @OneToMany(mappedBy = "jogo")
     private Set<Requisito> requisitos;
 

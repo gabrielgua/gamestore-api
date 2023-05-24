@@ -24,6 +24,12 @@ public class JogoRequest {
     @NotNull
     private BigDecimal nota;
 
+    @NotBlank
+    private String urlVideo;
+
+    @NotBlank
+    private String urlImagem;
+
     @NotNull
     private OffsetDateTime dataLancamento;
 

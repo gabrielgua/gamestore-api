@@ -18,6 +18,9 @@ public class JogoModel {
     private Long id;
     private String nome;
     private String uriNome;
+
+    private String urlVideo;
+    private String urlImagem;
     private OffsetDateTime dataLancamento;
     private String descricao;
     private BigDecimal preco;
