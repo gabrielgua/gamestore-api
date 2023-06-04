@@ -8,6 +8,7 @@ import com.gabriel.gamestore.api.security.roleauthotization.CheckSecurity;
 import com.gabriel.gamestore.domain.service.*;
 import jakarta.validation.Valid;
 import lombok.AllArgsConstructor;
+import org.springframework.data.domain.Pageable;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -28,8 +29,8 @@ public class JogoController {
 
     @GetMapping
     @CheckSecurity.Geral.podeConsultar
-    public List<JogoResumoModel> listar() {
-        return jogoAssembler.toCollectionResumoModel(jogoService.listar());
+    public List<JogoResumoModel> listar(Pageable pageable) {
+        return jogoAssembler.toCollectionResumoModel(jogoService.listar(pageable).getContent());
     }
 
     @GetMapping("/destaques")
@@ -37,6 +38,7 @@ public class JogoController {
     public List<JogoModel> listarJogosEmDestaque() {
         return jogoAssembler.toCollectionModel(jogoService.listarDestaques());
     }
+
 
     @GetMapping(params = "id")
     public JogoModel buscarPorId(@RequestParam("id") Long jogoId) {

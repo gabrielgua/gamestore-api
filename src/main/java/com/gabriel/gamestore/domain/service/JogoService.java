@@ -9,6 +9,8 @@ import com.gabriel.gamestore.domain.model.Plataforma;
 import com.gabriel.gamestore.domain.repository.JogoRepository;
 import lombok.AllArgsConstructor;
 import org.springframework.dao.DataIntegrityViolationException;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -19,7 +21,7 @@ import java.util.stream.Collectors;
 @AllArgsConstructor
 public class JogoService {
 
-    private static final int NUM_LISTA_DESTAQUE = 5;
+    private static final int NUM_LISTA_DESTAQUE = 9;
 
     private JogoRepository repository;
 
@@ -30,9 +32,11 @@ public class JogoService {
 
 
     @Transactional(readOnly = true)
-    public List<Jogo> listar() {
-        return repository.findAll();
+    public Page<Jogo> listar(Pageable pageable) {
+        return repository.findAll(pageable);
     }
+
+
 
     @Transactional(readOnly = true)
     public List<Jogo> listarDestaques() {
