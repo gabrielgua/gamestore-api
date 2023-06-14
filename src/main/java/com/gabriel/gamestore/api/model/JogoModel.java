@@ -21,6 +21,7 @@ public class JogoModel {
 
     private String urlVideo;
     private String urlImagem;
+    private String urlImgHero;
     private OffsetDateTime dataLancamento;
     private String descricao;
     private BigDecimal preco;
@@ -29,5 +30,6 @@ public class JogoModel {
     private Set<RequisitoModel> requisitos;
     private Set<CategoriaModel> categorias;
     private Set<PlataformaModel> plataformas;
+    private Set<ModoModel> modos;
 
 }

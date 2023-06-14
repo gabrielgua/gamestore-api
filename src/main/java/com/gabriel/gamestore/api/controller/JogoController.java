@@ -55,9 +55,11 @@ public class JogoController {
     public JogoModel adicionar(@Valid @RequestBody JogoRequest request) {
         var jogo = jogoAssembler.toEntity(request);
 
+        var modoIds = request.getModos();
         var categoriaIds =  request.getCategorias();
         var plataformaIds = request.getPlataformas();
-        return jogoAssembler.toModel(jogoService.salvar(jogo, plataformaIds, categoriaIds));
+
+        return jogoAssembler.toModel(jogoService.salvar(jogo, plataformaIds, categoriaIds, modoIds));
     }
 
     @PutMapping("/{jogoId}")
@@ -66,9 +68,10 @@ public class JogoController {
         var jogo = jogoService.buscarPorId(jogoId);
         jogoAssembler.copyToEntity(request, jogo);
 
+        var modoIds = request.getModos();
         var categoriaIds =  request.getCategorias();
         var plataformaIds = request.getPlataformas();
-        return jogoAssembler.toModel(jogoService.salvar(jogo, plataformaIds, categoriaIds));
+        return jogoAssembler.toModel(jogoService.salvar(jogo, plataformaIds, categoriaIds, modoIds));
     }
 
     @DeleteMapping("/{jogoId}")

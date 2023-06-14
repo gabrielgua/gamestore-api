@@ -30,6 +30,9 @@ public class JogoRequest {
     @NotBlank
     private String urlImagem;
 
+    @NotBlank
+    private String urlImgHero;
+
     @NotNull
     private OffsetDateTime dataLancamento;
 
@@ -37,6 +40,9 @@ public class JogoRequest {
     private Set<Long> categorias;
     @NotNull
     private Set<Long> plataformas;
+    @NotNull
+    private Set<Long> modos;
+
     @Valid
     @NotNull
     private DesenvolvedoraIdRequest desenvolvedora;

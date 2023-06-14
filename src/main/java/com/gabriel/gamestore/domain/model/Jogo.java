@@ -30,6 +30,7 @@ public class Jogo {
 
     private String urlVideo;
     private String urlImagem;
+    private String urlImgHero;
 
     @OneToMany(mappedBy = "jogo")
     private Set<Requisito> requisitos;
@@ -45,20 +46,22 @@ public class Jogo {
             inverseJoinColumns = @JoinColumn(name = "plataforma_id"))
     private Set<Plataforma> plataformas = new HashSet<>();
 
+    @ManyToMany
+    @JoinTable(name = "jogo_modo",
+        joinColumns = @JoinColumn(name = "jogo_id"),
+        inverseJoinColumns = @JoinColumn(name = "modo_id"))
+    private Set<Modo> modos = new HashSet<>();
+
+    public void addModo(Modo modo) {
+        modos.add(modo);
+    }
     public void addCategoria(Categoria categoria) {
         categorias.add(categoria);
-    }
-
-    public void delCategoria(Categoria categoria) {
-        categorias.remove(categoria);
     }
 
     public void addPlataforma(Plataforma plataforma) {
         plataformas.add(plataforma);
     }
 
-    public void delPlataforma(Plataforma plataforma) {
-        plataformas.remove(plataforma);
-    }
 
 }

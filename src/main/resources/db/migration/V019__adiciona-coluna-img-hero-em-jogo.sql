@@ -1,0 +1,1 @@
+alter table jogo add column url_img_hero varchar(250) after url_imagem;

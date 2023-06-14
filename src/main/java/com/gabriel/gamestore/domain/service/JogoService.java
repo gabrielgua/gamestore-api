@@ -22,13 +22,13 @@ import java.util.stream.Collectors;
 public class JogoService {
 
     private static final int NUM_LISTA_DESTAQUE = 9;
-
     private JogoRepository repository;
 
+    private ModoService modoService;
+    private CategoriaService categoriaService;
+    private PlataformaService plataformaService;
     private DesenvolvedoraService desenvolvedoraService;
 
-    private PlataformaService plataformaService;
-    private CategoriaService categoriaService;
 
 
     @Transactional(readOnly = true)
@@ -70,14 +70,16 @@ public class JogoService {
                 .collect(Collectors.toList());
     }
     @Transactional
-    public Jogo salvar(Jogo jogo, Set<Long> plataformaIds, Set<Long> categoriaIds) {
+    public Jogo salvar(Jogo jogo, Set<Long> plataformaIds, Set<Long> categoriaIds, Set<Long> modoIds) {
 
         var desenvolvedora = desenvolvedoraService.buscarPorId(jogo.getDesenvolvedora().getId());
         var uriNome = transformarNomeToUriNome(jogo.getNome());
         verificarUriNomeJaCadastrado(uriNome, jogo.getId());
 
+        adicionarModos(jogo, modoIds);
         adicionarPlataformas(jogo, plataformaIds);
         adicionarCategorias(jogo, categoriaIds);
+
 
         jogo.setUriNome(uriNome);
         jogo.setDesenvolvedora(desenvolvedora);
@@ -110,6 +112,14 @@ public class JogoService {
         var categorias = categoriaService.buscarVariosPorIds(categoriaIds);
 
         categorias.forEach(jogo::addCategoria);
+    }
+
+    @Transactional
+    public void adicionarModos(Jogo jogo, Set<Long> modoIds) {
+        jogo.setModos(new HashSet<>());
+        var modos = modoService.buscarVariosPorId(modoIds);
+
+        modos.forEach(jogo::addModo);
     }
 
     private String transformarNomeToUriNome(String nome) {
