@@ -4,9 +4,7 @@ import com.gabriel.gamestore.api.assembler.JogoAssembler;
 import com.gabriel.gamestore.api.model.JogoModel;
 import com.gabriel.gamestore.api.model.JogoResumoModel;
 import com.gabriel.gamestore.api.model.request.JogoRequest;
-import com.gabriel.gamestore.api.security.AuthProperties;
 import com.gabriel.gamestore.api.security.roleauthotization.CheckSecurity;
-import com.gabriel.gamestore.domain.model.Jogo;
 import com.gabriel.gamestore.domain.model.PageableResponse;
 import com.gabriel.gamestore.domain.service.*;
 import jakarta.validation.Valid;
@@ -30,25 +28,19 @@ public class JogoController {
 
     private PlataformaService plataformaService;
 
-    private AuthProperties properties;
-    private PageableResponseService pageableService;
+    private PageableResponseService<JogoResumoModel> pageableService;
 
 
     @GetMapping
     @CheckSecurity.Geral.podeConsultar
     public PageableResponse<JogoResumoModel> listar(@PageableDefault(size = 5) Pageable pageable) {
-
         var jogosCount = jogoService.count();
+        return pageableService.buildResponse(
+                "jogos",
+                jogosCount,
+                pageable,
+                jogoAssembler.toCollectionResumoModel(jogoService.listar(pageable).getContent()));
 
-
-        return PageableResponse.<JogoResumoModel>builder()
-                .count(jogosCount)
-                .page(pageable.getPageNumber())
-                .size(pageable.getPageSize())
-                .next(pageableService.getNextUrl(properties.getProviderUrl(), "jogos", jogosCount, pageable))
-                .prev(pageableService.getPrevUrl(properties.getProviderUrl(), "jogos", pageable))
-                .content(jogoAssembler.toCollectionResumoModel(jogoService.listar(pageable).getContent()))
-                .build();
     }
 
     @GetMapping("/destaques")
