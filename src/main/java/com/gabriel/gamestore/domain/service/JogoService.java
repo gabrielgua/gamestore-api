@@ -32,11 +32,14 @@ public class JogoService {
 
 
     @Transactional(readOnly = true)
+    public Long count() {
+        return repository.count();
+    }
+
+    @Transactional(readOnly = true)
     public Page<Jogo> listar(Pageable pageable) {
         return repository.findAll(pageable);
     }
-
-
 
     @Transactional(readOnly = true)
     public List<Jogo> listarDestaques() {

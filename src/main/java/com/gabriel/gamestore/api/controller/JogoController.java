@@ -4,11 +4,15 @@ import com.gabriel.gamestore.api.assembler.JogoAssembler;
 import com.gabriel.gamestore.api.model.JogoModel;
 import com.gabriel.gamestore.api.model.JogoResumoModel;
 import com.gabriel.gamestore.api.model.request.JogoRequest;
+import com.gabriel.gamestore.api.security.AuthProperties;
 import com.gabriel.gamestore.api.security.roleauthotization.CheckSecurity;
+import com.gabriel.gamestore.domain.model.Jogo;
+import com.gabriel.gamestore.domain.model.PageableResponse;
 import com.gabriel.gamestore.domain.service.*;
 import jakarta.validation.Valid;
 import lombok.AllArgsConstructor;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.web.PageableDefault;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -26,11 +30,25 @@ public class JogoController {
 
     private PlataformaService plataformaService;
 
+    private AuthProperties properties;
+    private PageableResponseService pageableService;
+
 
     @GetMapping
     @CheckSecurity.Geral.podeConsultar
-    public List<JogoResumoModel> listar(Pageable pageable) {
-        return jogoAssembler.toCollectionResumoModel(jogoService.listar(pageable).getContent());
+    public PageableResponse<JogoResumoModel> listar(@PageableDefault(size = 5) Pageable pageable) {
+
+        var jogosCount = jogoService.count();
+
+
+        return PageableResponse.<JogoResumoModel>builder()
+                .count(jogosCount)
+                .page(pageable.getPageNumber())
+                .size(pageable.getPageSize())
+                .next(pageableService.getNextUrl(properties.getProviderUrl(), "jogos", jogosCount, pageable))
+                .prev(pageableService.getPrevUrl(properties.getProviderUrl(), "jogos", pageable))
+                .content(jogoAssembler.toCollectionResumoModel(jogoService.listar(pageable).getContent()))
+                .build();
     }
 
     @GetMapping("/destaques")
@@ -38,7 +56,6 @@ public class JogoController {
     public List<JogoModel> listarJogosEmDestaque() {
         return jogoAssembler.toCollectionModel(jogoService.listarDestaques());
     }
-
 
     @GetMapping(params = "id")
     public JogoModel buscarPorId(@RequestParam("id") Long jogoId) {
