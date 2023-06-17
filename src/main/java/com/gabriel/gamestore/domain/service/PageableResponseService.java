@@ -2,6 +2,7 @@ package com.gabriel.gamestore.domain.service;
 
 import com.gabriel.gamestore.api.model.JogoResumoModel;
 import com.gabriel.gamestore.api.security.AuthProperties;
+import com.gabriel.gamestore.domain.exception.PageNaoEncontradaException;
 import com.gabriel.gamestore.domain.model.PageableResponse;
 import lombok.AllArgsConstructor;
 import org.springframework.data.domain.Pageable;
@@ -37,12 +38,12 @@ public class PageableResponseService<T> {
 
     }
 
-    public PageableResponse<T> buildResponse(
-            String controllerUrl,
-            Long count,
-            Pageable pageable,
-            List<T> content
-    ) {
+    public PageableResponse<T> buildResponse(String controllerUrl, Long count, Pageable pageable, List<T> content) {
+
+        if (!hasContent(content)) {
+            pageNaoExiste(pageable.getPageNumber());
+        }
+
         var pageInfo = PageableResponse.PageInfo.builder()
                 .count(count)
                 .pages(getNumberOfPages(pageable, count))
@@ -57,5 +58,13 @@ public class PageableResponseService<T> {
                 .pageInfo(pageInfo)
                 .content(content)
                 .build();
+    }
+
+    private boolean hasContent(List<T> content) {
+        return !content.isEmpty();
+    }
+
+    private void pageNaoExiste(Integer page) {
+        throw new PageNaoEncontradaException(page);
     }
 }
