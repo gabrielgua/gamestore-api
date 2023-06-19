@@ -12,9 +12,6 @@ public class JogoResumoModel {
     private Long id;
     private String nome;
     private String uriNome;
-    private String urlVideo;
     private String urlImagem;
-    private String descricao;
-    private BigDecimal nota;
     private BigDecimal preco;
 }
