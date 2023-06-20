@@ -7,6 +7,7 @@ import com.gabriel.gamestore.domain.model.Categoria;
 import com.gabriel.gamestore.domain.model.Jogo;
 import com.gabriel.gamestore.domain.model.Plataforma;
 import com.gabriel.gamestore.domain.repository.JogoRepository;
+import com.github.slugify.Slugify;
 import lombok.AllArgsConstructor;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.data.domain.Page;
@@ -21,6 +22,7 @@ import java.util.stream.Collectors;
 @AllArgsConstructor
 public class JogoService {
 
+    private Slugify slg;
     private static final int NUM_LISTA_DESTAQUE = 9;
     private JogoRepository repository;
 
@@ -77,7 +79,7 @@ public class JogoService {
 
         var desenvolvedora = desenvolvedoraService.buscarPorId(jogo.getDesenvolvedora().getId());
         var uriNome = transformarNomeToUriNome(jogo.getNome());
-        verificarUriNomeJaCadastrado(uriNome, jogo.getId());
+//        verificarUriNomeJaCadastrado(uriNome, jogo.getId());
 
         adicionarModos(jogo, modoIds);
         adicionarPlataformas(jogo, plataformaIds);
@@ -126,11 +128,7 @@ public class JogoService {
     }
 
     private String transformarNomeToUriNome(String nome) {
-        String stringTransformada = nome.toLowerCase();
-        stringTransformada = stringTransformada.replaceAll("[^a-z A-Z0-9]", "");
-        stringTransformada = stringTransformada.replaceAll(" +", " ");
-        stringTransformada = stringTransformada.replaceAll(" ", "-");
-        return stringTransformada;
+        return slg.slugify(nome);
     }
 
     private void verificarUriNomeJaCadastrado(String uriNome, Long jogoId) {
