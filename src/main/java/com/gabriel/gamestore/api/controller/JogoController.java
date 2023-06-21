@@ -5,8 +5,10 @@ import com.gabriel.gamestore.api.model.JogoModel;
 import com.gabriel.gamestore.api.model.JogoResumoModel;
 import com.gabriel.gamestore.api.model.request.JogoRequest;
 import com.gabriel.gamestore.api.security.roleauthotization.CheckSecurity;
+import com.gabriel.gamestore.domain.filter.JogoFilter;
 import com.gabriel.gamestore.domain.model.PageableResponse;
-import com.gabriel.gamestore.domain.service.*;
+import com.gabriel.gamestore.domain.service.JogoService;
+import com.gabriel.gamestore.domain.service.PageableResponseService;
 import jakarta.validation.Valid;
 import lombok.AllArgsConstructor;
 import org.springframework.data.domain.Pageable;
@@ -22,25 +24,22 @@ public class JogoController {
 
     private JogoService jogoService;
     private JogoAssembler jogoAssembler;
-
-    private DesenvolvedoraService desenvolvedoraService;
-    private CategoriaService categoriaService;
-
-    private PlataformaService plataformaService;
-
     private PageableResponseService<JogoResumoModel> pageableService;
 
 
     @GetMapping
     @CheckSecurity.Geral.podeConsultar
-    public PageableResponse<JogoResumoModel> listar(@PageableDefault(size = 5) Pageable pageable) {
-        var jogosCount = jogoService.count();
+    public PageableResponse<JogoResumoModel> listar(@PageableDefault(size = 5) Pageable pageable, JogoFilter filter) {
+
+        var pageJogos = jogoService.listar(pageable, filter);
+        var jogosResumo = jogoAssembler.toPageResumoModel(pageJogos);
+
         return pageableService.buildResponse(
                 "jogos",
-                jogosCount,
+                jogosResumo,
                 pageable,
-                jogoAssembler.toCollectionResumoModel(jogoService.listar(pageable).getContent()));
-
+                jogoAssembler.toCollectionResumoModel(pageJogos.getContent())
+        );
     }
 
     @GetMapping("/destaques")
@@ -54,8 +53,8 @@ public class JogoController {
         return jogoAssembler.toModel(jogoService.buscarPorId(jogoId));
     }
 
-    @GetMapping(params = "nome")
-    public JogoModel buscarPorUriNome(@RequestParam("nome") String uriNome) {
+    @GetMapping(params = "uriNome")
+    public JogoModel buscarPorUriNome(@RequestParam("uriNome") String uriNome) {
         return jogoAssembler.toModel(jogoService.buscarPorUriNome(uriNome));
     }
 

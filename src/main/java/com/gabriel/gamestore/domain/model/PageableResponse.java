@@ -15,7 +15,7 @@ public class PageableResponse<T> {
     @Builder
     public static class PageInfo {
         private Long count;
-        private Long pages;
+        private Integer pages;
         private Integer page;
         private Integer size;
         private String next;

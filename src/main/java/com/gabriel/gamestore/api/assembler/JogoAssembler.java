@@ -7,6 +7,7 @@ import com.gabriel.gamestore.domain.model.Desenvolvedora;
 import com.gabriel.gamestore.domain.model.Jogo;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Component;
 
 import java.util.List;
@@ -47,4 +48,10 @@ public class JogoAssembler {
                 .map(this::toModel)
                 .collect(Collectors.toList());
     }
+
+    public Page<JogoResumoModel> toPageResumoModel(Page<Jogo> pageJogos) {
+        return pageJogos.map(this::toResumoModel);
+    }
+
+
 }

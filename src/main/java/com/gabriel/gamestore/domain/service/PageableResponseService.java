@@ -1,10 +1,10 @@
 package com.gabriel.gamestore.domain.service;
 
-import com.gabriel.gamestore.api.model.JogoResumoModel;
 import com.gabriel.gamestore.api.security.AuthProperties;
 import com.gabriel.gamestore.domain.exception.PageNaoEncontradaException;
 import com.gabriel.gamestore.domain.model.PageableResponse;
 import lombok.AllArgsConstructor;
+import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
@@ -38,18 +38,17 @@ public class PageableResponseService<T> {
 
     }
 
-    public PageableResponse<T> buildResponse(String controllerUrl, Long count, Pageable pageable, List<T> content) {
-
-        if (!hasContent(content)) {
-            pageNaoExiste(pageable.getPageNumber());
+    public PageableResponse<T> buildResponse(String controllerUrl, Page<T> page, Pageable pageable, List<T> content) {
+        if (page.getNumber() == page.getTotalPages() && !page.isFirst()) {
+            pageNaoExiste(page.getNumber());
         }
 
         var pageInfo = PageableResponse.PageInfo.builder()
-                .count(count)
-                .pages(getNumberOfPages(pageable, count))
+                .count(page.getTotalElements())
+                .pages(page.getTotalPages())
                 .page(pageable.getPageNumber())
                 .size(pageable.getPageSize())
-                .next(getNextUrl(properties.getProviderUrl(), controllerUrl, count, pageable))
+                .next(getNextUrl(properties.getProviderUrl(), controllerUrl, page.getTotalElements(), pageable))
                 .prev(getPrevUrl(properties.getProviderUrl(), controllerUrl, pageable))
                 .build();
 

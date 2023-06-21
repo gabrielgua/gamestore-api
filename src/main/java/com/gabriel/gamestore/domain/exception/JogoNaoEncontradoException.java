@@ -6,7 +6,7 @@ public class JogoNaoEncontradoException extends EntidadeNaoEncontradaException {
         super(String.format("Jogo de id: #%s não encontrado.", jogoId));
     }
 
-    public JogoNaoEncontradoException(String uriNome) {
-        super(String.format("Jogo não encontrado com nome: '%s'", uriNome));
+    public JogoNaoEncontradoException(String search) {
+        super(String.format("Jogo não encontrado com nome: '%s'", search));
     }
 }

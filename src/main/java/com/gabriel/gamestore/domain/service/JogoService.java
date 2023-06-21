@@ -1,15 +1,17 @@
 package com.gabriel.gamestore.domain.service;
 
+import com.gabriel.gamestore.core.spec.JogoSpecs;
 import com.gabriel.gamestore.domain.exception.EntidadeEmUsoException;
 import com.gabriel.gamestore.domain.exception.JogoNaoEncontradoException;
 import com.gabriel.gamestore.domain.exception.NegocioException;
-import com.gabriel.gamestore.domain.model.Categoria;
+import com.gabriel.gamestore.domain.exception.PageNaoEncontradaException;
+import com.gabriel.gamestore.domain.filter.JogoFilter;
 import com.gabriel.gamestore.domain.model.Jogo;
-import com.gabriel.gamestore.domain.model.Plataforma;
 import com.gabriel.gamestore.domain.repository.JogoRepository;
 import com.github.slugify.Slugify;
 import lombok.AllArgsConstructor;
 import org.springframework.dao.DataIntegrityViolationException;
+import org.springframework.dao.InvalidDataAccessApiUsageException;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
@@ -31,17 +33,17 @@ public class JogoService {
     private PlataformaService plataformaService;
     private DesenvolvedoraService desenvolvedoraService;
 
-
-
     @Transactional(readOnly = true)
-    public Long count() {
-        return repository.count();
+    public Page<Jogo> listar(Pageable pageable, JogoFilter filter) {
+        try {
+
+
+            return repository.findAll(JogoSpecs.filter(filter), pageable);
+        } catch (InvalidDataAccessApiUsageException ex) {
+            throw new PageNaoEncontradaException(pageable.getPageNumber());
+        }
     }
 
-    @Transactional(readOnly = true)
-    public Page<Jogo> listar(Pageable pageable) {
-        return repository.findAll(pageable);
-    }
 
     @Transactional(readOnly = true)
     public List<Jogo> listarDestaques() {
@@ -68,6 +70,7 @@ public class JogoService {
     public Jogo buscarPorUriNome(String uriNome) {
         return repository.findByUriNome(uriNome).orElseThrow(() -> new JogoNaoEncontradoException(uriNome));
     }
+
     @Transactional(readOnly = true)
     public List<Jogo> buscarVariosPorId(List<Long> jogosIds) {
         return jogosIds.stream()
@@ -79,7 +82,7 @@ public class JogoService {
 
         var desenvolvedora = desenvolvedoraService.buscarPorId(jogo.getDesenvolvedora().getId());
         var uriNome = transformarNomeToUriNome(jogo.getNome());
-//        verificarUriNomeJaCadastrado(uriNome, jogo.getId());
+        verificarUriNomeJaCadastrado(uriNome, jogo.getId());
 
         adicionarModos(jogo, modoIds);
         adicionarPlataformas(jogo, plataformaIds);
@@ -137,4 +140,5 @@ public class JogoService {
             throw new NegocioException(String.format("Jogo '%s' já está cadastrado.", jogo.get().getNome()));
         }
     }
+
 }
