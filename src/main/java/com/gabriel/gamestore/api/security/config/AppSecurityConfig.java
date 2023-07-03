@@ -1,6 +1,7 @@
 package com.gabriel.gamestore.api.security.config;
 
-import com.gabriel.gamestore.domain.service.UsuarioService;
+import com.gabriel.gamestore.domain.exception.UsuarioNaoEncontradoException;
+import com.gabriel.gamestore.domain.repository.UsuarioRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -22,14 +23,14 @@ import java.util.List;
 @RequiredArgsConstructor
 public class AppSecurityConfig {
 
-    private final UsuarioService usuarioService;
+    private final UsuarioRepository usuarioRepository;
 
     @Bean
     public UserDetailsService userDetailsService() {
         return new UserDetailsService() {
             @Override
             public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-                var usuario = usuarioService.buscarPorUsername(username);
+                var usuario = usuarioRepository.findByUsername(username).orElseThrow(() -> new UsuarioNaoEncontradoException(username));
 
                 var simpleGrantedAuthority = new SimpleGrantedAuthority(usuario.getTipo().name());
                 return new User(usuario.getUsername(), usuario.getSenha(), List.of(simpleGrantedAuthority));

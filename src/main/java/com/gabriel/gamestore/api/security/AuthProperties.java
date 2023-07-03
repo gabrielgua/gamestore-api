@@ -15,8 +15,12 @@ import org.springframework.validation.annotation.Validated;
 @ConfigurationProperties("gamestore.auth")
 public class AuthProperties {
 
+    @NotBlank
+    private String providerUrl;
+
     @NotNull
     private AuthProperties.Jwt jwt;
+
 
 
     @Getter

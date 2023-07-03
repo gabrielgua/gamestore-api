@@ -5,7 +5,6 @@ import com.gabriel.gamestore.domain.service.UsuarioService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.security.oauth2.jwt.Jwt;
 import org.springframework.stereotype.Component;
 
 @Component
@@ -22,8 +21,8 @@ public class AuthorizationConfig {
     }
 
     public Long getUsuarioId() {
-        var jwt = (Jwt) getAuthentication().getPrincipal();
-        return Long.valueOf(jwt.getClaim("userId"));
+        var username = getAuthentication().getName();
+        return usuarioService.buscarPorUsername(username).getId();
     }
 
     public boolean isAutenticado() {
