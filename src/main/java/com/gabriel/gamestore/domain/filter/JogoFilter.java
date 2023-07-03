@@ -10,6 +10,7 @@ import java.util.Set;
 public class JogoFilter {
 
     private String nome;
+    private Boolean gratuito;
     private Set<Long> modosIds;
     private Set<Long> categoriasIds;
     private Set<Long> plataformasIds;

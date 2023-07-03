@@ -5,6 +5,7 @@ import com.gabriel.gamestore.domain.model.Jogo;
 import jakarta.persistence.criteria.Predicate;
 import org.springframework.data.jpa.domain.Specification;
 
+import java.math.BigDecimal;
 import java.util.ArrayList;
 
 public class JogoSpecs {
@@ -15,6 +16,10 @@ public class JogoSpecs {
 
             if (filter.getNome() != null && !filter.getNome().isEmpty()) {
                 predicates.add(criteriaBuilder.like(root.get("nome"), "%" + filter.getNome().replaceAll("\\s+", "%") + "%"));
+            }
+
+            if (filter.getGratuito() != null && filter.getGratuito()) {
+                predicates.add(criteriaBuilder.equal(root.get("preco"), BigDecimal.ZERO));
             }
 
             if (filter.getCategoriasIds() != null && !filter.getCategoriasIds().isEmpty()) {

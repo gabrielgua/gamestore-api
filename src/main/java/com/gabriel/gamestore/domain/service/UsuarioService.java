@@ -31,6 +31,11 @@ public class UsuarioService {
         return repository.findById(usuarioId).orElseThrow(() -> new UsuarioNaoEncontradoException(usuarioId));
     }
 
+    @Transactional(readOnly = true)
+    public Usuario buscarPorUsername(String username) {
+        return repository.findByUsername(username).orElseThrow(() -> new UsuarioNaoEncontradoException(username));
+    }
+
     @Transactional
     public Usuario salvar(Usuario usuario) {
         repository.detach(usuario);
@@ -73,11 +78,11 @@ public class UsuarioService {
 
     private void checarEmailAndUsername(Usuario usuario) {
         var usuarioExistenteUsername = repository.findByUsername(usuario.getUsername());
-        var usuarioExsitenteEmail = repository.findByEmail(usuario.getEmail());
+        var usuarioExistenteEmail = repository.findByEmail(usuario.getEmail());
 
         if (usuarioExistenteUsername.isPresent() && !usuarioExistenteUsername.get().equals(usuario)) {
             throw new NegocioException(String.format("Username '%s' já cadastrado", usuario.getUsername()));
-        } else if (usuarioExsitenteEmail.isPresent() && !usuarioExsitenteEmail.get().equals(usuario)) {
+        } else if (usuarioExistenteEmail.isPresent() && !usuarioExistenteEmail.get().equals(usuario)) {
             throw new NegocioException(String.format("E-mail '%s' já cadastrado.", usuario.getEmail()));
         }
     }

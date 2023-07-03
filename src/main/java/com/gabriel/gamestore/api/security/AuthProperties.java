@@ -8,8 +8,6 @@ import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.stereotype.Component;
 import org.springframework.validation.annotation.Validated;
 
-import java.util.List;
-
 @Component
 @Getter
 @Setter
@@ -17,39 +15,33 @@ import java.util.List;
 @ConfigurationProperties("gamestore.auth")
 public class AuthProperties {
 
-    @NotBlank
-    private String providerUrl;
     @NotNull
-    private List<String> allowedRedirects;
-
-    @NotNull
-    private Angular angular;
-    @NotNull
-    private JksProperties jks;
+    private AuthProperties.Jwt jwt;
 
 
     @Getter
     @Setter
     @Validated
-    public static class Angular {
+    public static class Jwt {
         @NotBlank
-        private String clientId;
-        @NotBlank
-        private String clientSecret;
+        private String secretKey;
+
+        @NotNull
+        private Token accessToken;
+
+        @NotNull
+        private Token refreshToken;
+
     }
 
     @Getter
     @Setter
     @Validated
-    public static class JksProperties {
-        @NotBlank
-        private String keypass;
-        @NotBlank
-        private String storepass;
-        @NotBlank
-        private String alias;
-        @NotBlank
-        private String path;
+    public static class Token {
+        @NotNull
+        private Long expiration;
     }
+
+
 
 }

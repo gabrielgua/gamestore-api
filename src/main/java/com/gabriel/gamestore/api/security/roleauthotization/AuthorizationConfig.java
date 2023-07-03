@@ -1,7 +1,5 @@
 package com.gabriel.gamestore.api.security.roleauthotization;
 
-import com.gabriel.gamestore.domain.repository.PedidoRepository;
-import com.gabriel.gamestore.domain.repository.UsuarioRepository;
 import com.gabriel.gamestore.domain.service.PedidoService;
 import com.gabriel.gamestore.domain.service.UsuarioService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -53,7 +51,7 @@ public class AuthorizationConfig {
         return temAuthority("USER");
     }
 
-    private boolean usuarioAutenticatoIgualA(Long usuarioId) {
+    private boolean usuarioAutenticadoIgualA(Long usuarioId) {
         return getUsuarioId() != null && usuarioId != null && getUsuarioId().equals(usuarioId);
     }
 
@@ -65,20 +63,20 @@ public class AuthorizationConfig {
 
     // Usuários
     public boolean podeBuscarUsuario(Long usuarioId) {
-        return temEscopoLeitura() && (isAdmin() || usuarioAutenticatoIgualA(usuarioId));
+        return temEscopoLeitura() && (isAdmin() || usuarioAutenticadoIgualA(usuarioId));
     }
 
     public boolean podeGerenciarUsuario(Long usuarioId) {
-        return temEscopoEscrita() && (isAdmin() || usuarioAutenticatoIgualA(usuarioId));
+        return temEscopoEscrita() && (isAdmin() || usuarioAutenticadoIgualA(usuarioId));
     }
 
     public boolean podeAlterarPropriaSenha(Long usuarioId) {
-        return usuarioAutenticatoIgualA(usuarioId);
+        return usuarioAutenticadoIgualA(usuarioId);
     }
 
     // Usuários Jogos
     public boolean podeListarJogosDoUsuario(Long usuarioId) {
-        return temEscopoLeitura() && (isAdmin() || usuarioAutenticatoIgualA(usuarioId));
+        return temEscopoLeitura() && (isAdmin() || usuarioAutenticadoIgualA(usuarioId));
     }
     public boolean podeGerenciarJogosDoUsuario(Long usuarioId) {
         return temEscopoEscrita() && isAdmin();
@@ -92,7 +90,7 @@ public class AuthorizationConfig {
     }
 
     public boolean podeConsultarPropriosPedidos(Long usuarioId) {
-        return temEscopoLeitura() && (isAdmin() || usuarioAutenticatoIgualA(usuarioId));
+        return temEscopoLeitura() && (isAdmin() || usuarioAutenticadoIgualA(usuarioId));
     }
 
     public boolean podeAdicionarPedido() {

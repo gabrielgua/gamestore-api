@@ -1,4 +1,4 @@
-package com.gabriel.gamestore.api.security;
+package com.gabriel.gamestore.api.security.config;
 
 import org.springframework.boot.web.servlet.FilterRegistrationBean;
 import org.springframework.context.annotation.Bean;
