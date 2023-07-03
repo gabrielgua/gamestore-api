@@ -34,14 +34,6 @@ public class AuthorizationConfig {
                 .anyMatch(a -> a.getAuthority().equals(authority));
     }
 
-    public boolean temEscopoLeitura() {
-        return temAuthority("SCOPE_READ");
-    }
-
-    public boolean temEscopoEscrita() {
-        return temAuthority("SCOPE_WRITE");
-    }
-
     public boolean isAdmin() {
         return temAuthority("ADMIN");
     }
@@ -56,17 +48,17 @@ public class AuthorizationConfig {
 
     // Geral
     public boolean podeGerenciarOuConsultarRecursosProtegidosGerais() {
-        return temEscopoEscrita() && isAdmin() && isAutenticado();
+        return isAdmin() && isAutenticado();
     }
 
 
     // Usuários
     public boolean podeBuscarUsuario(Long usuarioId) {
-        return temEscopoLeitura() && (isAdmin() || usuarioAutenticadoIgualA(usuarioId));
+        return isAdmin() || usuarioAutenticadoIgualA(usuarioId);
     }
 
     public boolean podeGerenciarUsuario(Long usuarioId) {
-        return temEscopoEscrita() && (isAdmin() || usuarioAutenticadoIgualA(usuarioId));
+        return isAdmin() || usuarioAutenticadoIgualA(usuarioId);
     }
 
     public boolean podeAlterarPropriaSenha(Long usuarioId) {
@@ -75,10 +67,10 @@ public class AuthorizationConfig {
 
     // Usuários Jogos
     public boolean podeListarJogosDoUsuario(Long usuarioId) {
-        return temEscopoLeitura() && (isAdmin() || usuarioAutenticadoIgualA(usuarioId));
+        return isAdmin() || usuarioAutenticadoIgualA(usuarioId);
     }
     public boolean podeGerenciarJogosDoUsuario(Long usuarioId) {
-        return temEscopoEscrita() && isAdmin();
+        return isAdmin();
     }
 
     // Pedidos
@@ -89,11 +81,11 @@ public class AuthorizationConfig {
     }
 
     public boolean podeConsultarPropriosPedidos(Long usuarioId) {
-        return temEscopoLeitura() && (isAdmin() || usuarioAutenticadoIgualA(usuarioId));
+        return isAdmin() || usuarioAutenticadoIgualA(usuarioId);
     }
 
     public boolean podeAdicionarPedido() {
-        return temEscopoEscrita() && isAutenticado() && (isAdmin() || isUser());
+        return isAutenticado() && (isAdmin() || isUser());
     }
     public boolean podeConfirmarPedido(String codigoPedido) {
         return podeGerenciarOuConsultarRecursosProtegidosGerais() || isResponsavelPorPedido(codigoPedido, getUsuarioId());
@@ -104,6 +96,6 @@ public class AuthorizationConfig {
     }
 
     public boolean podeReembolsarPedido(String codigoPedido) {
-        return temEscopoEscrita() && isResponsavelPorPedido(codigoPedido, getUsuarioId());
+        return isResponsavelPorPedido(codigoPedido, getUsuarioId());
     }
 }
