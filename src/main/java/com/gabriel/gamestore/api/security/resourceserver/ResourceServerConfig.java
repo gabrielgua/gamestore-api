@@ -41,7 +41,7 @@ public class ResourceServerConfig {
                             .requestMatchers(HttpMethod.GET, "/plataformas", "/plataformas/*").permitAll()
                             .requestMatchers(HttpMethod.GET, "/categorias", "/categorias/*").permitAll()
                             .requestMatchers(HttpMethod.GET, "/modos", "/modos/*").permitAll()
-                            .requestMatchers(HttpMethod.GET, "/desenvolvedoras", "/desenvolvedoras/*").permitAll()
+                            .requestMatchers(HttpMethod.GET, "/desenvolvedoras", "/desenvolvedoras/*", "/desenvolvedoras/**").permitAll()
                             .requestMatchers(HttpMethod.GET, "/formas-pagamento", "/formas-pagamento/*").permitAll();
                 })
                 .authorizeHttpRequests().anyRequest().authenticated()

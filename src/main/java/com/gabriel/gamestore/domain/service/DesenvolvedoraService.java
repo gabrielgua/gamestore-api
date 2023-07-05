@@ -3,6 +3,7 @@ package com.gabriel.gamestore.domain.service;
 import com.gabriel.gamestore.domain.exception.DesenvolvedoraNaoEncontradaException;
 import com.gabriel.gamestore.domain.exception.EntidadeEmUsoException;
 import com.gabriel.gamestore.domain.model.Desenvolvedora;
+import com.gabriel.gamestore.domain.model.Jogo;
 import com.gabriel.gamestore.domain.repository.DesenvolvedoraRepository;
 import lombok.AllArgsConstructor;
 import org.springframework.dao.DataIntegrityViolationException;
@@ -44,5 +45,6 @@ public class DesenvolvedoraService {
                             , desenvolvedora.getId(), desenvolvedora.getNome()));
         }
     }
+
 }
 
