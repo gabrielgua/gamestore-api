@@ -13,5 +13,6 @@ public class JogoResumoModel {
     private String nome;
     private String uriNome;
     private String urlImagem;
+    private DesenvolvedoraResumoModel desenvolvedora;
     private BigDecimal preco;
 }

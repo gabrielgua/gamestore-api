@@ -34,7 +34,7 @@ public class UsuarioController {
     }
 
     @PostMapping
-    @CheckSecurity.Usuarios.podeGerenciar
+    @CheckSecurity.Usuarios.podeConsultar
     public UsuarioModel salvar(@Valid @RequestBody UsuarioComSenhaRequest request) {
         var usuario = assembler.toEntity(request);
         return assembler.toModel(service.salvar(usuario));

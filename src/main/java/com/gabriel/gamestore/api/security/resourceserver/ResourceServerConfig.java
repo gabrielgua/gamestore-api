@@ -23,8 +23,18 @@ public class ResourceServerConfig {
     private final JwtAuthenticationFilter jwtFilter;
     private final AuthenticationProvider authProvider;
 
-    private static final String[] AUTH_WHITELIST = {
-            "/login", "/logout", "/auth/**", "/fonts/**", "/css/**", "/images/**"
+    private static final String[] UTILS_WHITELIST = {
+            "/auth/**", "/fonts/**", "/css/**", "/images/**"
+    };
+
+    private static final String[] PUBLIC_ENDPOINTS = {
+            "/auth/*",
+            "/jogos", "/jogos/*",
+            "/plataformas", "/plataformas/*",
+            "/categorias", "/categorias/*",
+            "/modos", "/modos/*",
+            "/desenvolvedoras", "/desenvolvedoras/*", "/desenvolvedoras/**",
+            "/formas-pagamento", "/formas-pagamento/*",
     };
 
     @Bean
@@ -33,18 +43,13 @@ public class ResourceServerConfig {
                 .csrf().disable()
                 .cors()
                 .and()
-                .authorizeHttpRequests().requestMatchers(AUTH_WHITELIST).permitAll()
+                .authorizeHttpRequests().requestMatchers(UTILS_WHITELIST).permitAll()
                 .and()
-                .authorizeHttpRequests(authorize -> {
-                    authorize
-                            .requestMatchers(HttpMethod.GET, "/jogos", "/jogos/*").permitAll()
-                            .requestMatchers(HttpMethod.GET, "/plataformas", "/plataformas/*").permitAll()
-                            .requestMatchers(HttpMethod.GET, "/categorias", "/categorias/*").permitAll()
-                            .requestMatchers(HttpMethod.GET, "/modos", "/modos/*").permitAll()
-                            .requestMatchers(HttpMethod.GET, "/desenvolvedoras", "/desenvolvedoras/*", "/desenvolvedoras/**").permitAll()
-                            .requestMatchers(HttpMethod.GET, "/formas-pagamento", "/formas-pagamento/*").permitAll();
-                })
-                .authorizeHttpRequests().anyRequest().authenticated()
+                .authorizeHttpRequests()
+                    .requestMatchers(HttpMethod.GET, PUBLIC_ENDPOINTS).permitAll()
+                .and()
+                .authorizeHttpRequests()
+                    .anyRequest().authenticated()
                 .and()
                 .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS)
                 .and()
