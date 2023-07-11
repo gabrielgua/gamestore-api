@@ -15,6 +15,7 @@ public class UsuarioRequest {
     private String email;
     @NotBlank
     private String username;
+
     @Nullable
     private String nome;
 }
