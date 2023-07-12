@@ -27,7 +27,7 @@ public class ResourceServerConfig {
             "/auth/**", "/fonts/**", "/css/**", "/images/**"
     };
 
-    private static final String[] PUBLIC_ENDPOINTS = {
+    private static final String[] PUBLIC_READ_ENDPOINTS = {
             "/auth/*",
             "/modos", "/modos/*",
             "/jogos", "/jogos/*",
@@ -35,6 +35,10 @@ public class ResourceServerConfig {
             "/plataformas", "/plataformas/*",
             "/formas-pagamento", "/formas-pagamento/*",
             "/desenvolvedoras", "/desenvolvedoras/*", "/desenvolvedoras/**",
+    };
+
+    private static final String[] PUBLIC_WRITE_ENDPOINTS = {
+            "/usuarios/check-username", "/usuarios/check-email"
     };
 
     @Bean
@@ -46,8 +50,8 @@ public class ResourceServerConfig {
                 .authorizeHttpRequests().requestMatchers(UTILS_WHITELIST).permitAll()
                 .and()
                 .authorizeHttpRequests()
-                    .requestMatchers(HttpMethod.GET, PUBLIC_ENDPOINTS).permitAll()
-                    .requestMatchers("/usuarios/check-username").permitAll()
+                    .requestMatchers(HttpMethod.GET, PUBLIC_READ_ENDPOINTS).permitAll()
+                    .requestMatchers(HttpMethod.POST, PUBLIC_WRITE_ENDPOINTS).permitAll()
                 .and()
                 .authorizeHttpRequests()
                     .anyRequest().authenticated()

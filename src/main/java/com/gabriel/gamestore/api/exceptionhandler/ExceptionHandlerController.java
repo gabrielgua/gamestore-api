@@ -18,6 +18,8 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.http.converter.HttpMessageNotReadableException;
 import org.springframework.security.access.AccessDeniedException;
 import org.springframework.security.authentication.BadCredentialsException;
+import org.springframework.security.authentication.InternalAuthenticationServiceException;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.FieldError;
 import org.springframework.web.bind.MethodArgumentNotValidException;
@@ -245,4 +247,32 @@ public class ExceptionHandlerController extends ResponseEntityExceptionHandler {
 
         return handleExceptionInternal(ex, problema, new HttpHeaders(), status, request);
     }
+
+    @ExceptionHandler(InternalAuthenticationServiceException.class)
+    public ResponseEntity<?> handleInternalAuthenticationService(InternalAuthenticationServiceException ex, WebRequest request) {
+        var status = HttpStatus.UNAUTHORIZED;
+        var detail = "Nome de usuário ou senha incorretos";
+        var type = ProblemaType.CREDENCIAIS_INVALIDAS;
+
+        var problema = createProblemaBuilder(status, type, detail)
+                .userMessage(detail + '.')
+                .build();
+
+        return handleExceptionInternal(ex, problema, new HttpHeaders(), status, request);
+    }
+
+    @ExceptionHandler(UsernameNotFoundException.class)
+    public ResponseEntity<?> handleUsernameNotFound(UsernameNotFoundException ex, WebRequest request) {
+        var status = HttpStatus.UNAUTHORIZED;
+        var detail = ex.getMessage();
+        var type = ProblemaType.CREDENCIAIS_INVALIDAS;
+
+        var problema = createProblemaBuilder(status, type, detail)
+                .userMessage(detail + '.')
+                .build();
+
+        return handleExceptionInternal(ex, problema, new HttpHeaders(), status, request);
+    }
+
+
 }

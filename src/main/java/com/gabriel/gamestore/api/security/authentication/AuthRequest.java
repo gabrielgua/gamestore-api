@@ -15,6 +15,5 @@ public class AuthRequest {
     private String username;
 
     @NotBlank
-    @Min(5)
     private String password;
 }

@@ -2,10 +2,7 @@ package com.gabriel.gamestore.api.controller;
 
 import com.gabriel.gamestore.api.assembler.UsuarioAssembler;
 import com.gabriel.gamestore.api.model.UsuarioModel;
-import com.gabriel.gamestore.api.model.request.SenhaRequest;
-import com.gabriel.gamestore.api.model.request.UsernameCheckRequest;
-import com.gabriel.gamestore.api.model.request.UsuarioComSenhaRequest;
-import com.gabriel.gamestore.api.model.request.UsuarioRequest;
+import com.gabriel.gamestore.api.model.request.*;
 import com.gabriel.gamestore.api.security.roleauthotization.CheckSecurity;
 import com.gabriel.gamestore.domain.service.UsuarioService;
 import jakarta.validation.Valid;
@@ -30,8 +27,14 @@ public class UsuarioController {
 
     @PostMapping("/check-username")
     @CheckSecurity.Geral.podeConsultar
-    public boolean usernameTaken(@RequestBody UsernameCheckRequest request) {
+    public boolean usernameTaken(@RequestBody @Valid UsernameCheckRequest request) {
         return service.usernameTaken(request.getUsername());
+    }
+
+    @PostMapping("/check-email")
+    @CheckSecurity.Geral.podeConsultar
+    public boolean emailTaken(@RequestBody @Valid EmailCheckRequest request) {
+        return service.emailTaken(request.getEmail());
     }
 
 
