@@ -3,6 +3,7 @@ package com.gabriel.gamestore.api.controller;
 import com.gabriel.gamestore.api.assembler.UsuarioAssembler;
 import com.gabriel.gamestore.api.model.UsuarioModel;
 import com.gabriel.gamestore.api.model.request.SenhaRequest;
+import com.gabriel.gamestore.api.model.request.UsernameCheckRequest;
 import com.gabriel.gamestore.api.model.request.UsuarioComSenhaRequest;
 import com.gabriel.gamestore.api.model.request.UsuarioRequest;
 import com.gabriel.gamestore.api.security.roleauthotization.CheckSecurity;
@@ -26,6 +27,13 @@ public class UsuarioController {
     public List<UsuarioModel> listar() {
         return assembler.toCollectionModel(service.listar());
     }
+
+    @PostMapping("/check-username")
+    @CheckSecurity.Geral.podeConsultar
+    public boolean usernameTaken(@RequestBody UsernameCheckRequest request) {
+        return service.usernameTaken(request.getUsername());
+    }
+
 
     @GetMapping("/{usuarioId}")
     @CheckSecurity.Usuarios.podeBuscar

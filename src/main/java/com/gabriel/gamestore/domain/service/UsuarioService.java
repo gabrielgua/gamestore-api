@@ -39,7 +39,7 @@ public class UsuarioService {
     @Transactional
     public Usuario salvar(Usuario usuario) {
         repository.detach(usuario);
-        checarEmailAndUsername(usuario);
+        checarUsernameAndEmail(usuario);
 
         if (usuario.isNovo()) {
             usuario.setSenha(encoder.encode(usuario.getSenha()));
@@ -76,15 +76,40 @@ public class UsuarioService {
     }
 
 
-    private void checarEmailAndUsername(Usuario usuario) {
-        var usuarioExistenteUsername = repository.findByUsername(usuario.getUsername());
-        var usuarioExistenteEmail = repository.findByEmail(usuario.getEmail());
 
-        if (usuarioExistenteUsername.isPresent() && !usuarioExistenteUsername.get().equals(usuario)) {
+    private void checarUsernameAndEmail(Usuario usuario) {
+        if (usernameTaken(usuario)) {
             throw new NegocioException(String.format("Username '%s' já cadastrado", usuario.getUsername()));
-        } else if (usuarioExistenteEmail.isPresent() && !usuarioExistenteEmail.get().equals(usuario)) {
-            throw new NegocioException(String.format("E-mail '%s' já cadastrado.", usuario.getEmail()));
         }
+
+        if (emailTaken(usuario)) {
+            throw new NegocioException(String.format("E-mail '%s' já cadastrado", usuario.getEmail()));
+        }
+    }
+
+    private boolean usernameTaken(Usuario usuario) {
+        var usuarioExistente = repository.findByUsername(usuario.getUsername());
+        return usuarioExistente.isPresent() && !isSameUsuario(usuarioExistente.get(), usuario);
+    }
+
+    public boolean usernameTaken(String username) {
+        var usuario = repository.findByUsername(username);
+        return usuario.isPresent();
+    }
+
+    public boolean emailTaken(String email) {
+        var usuario = repository.findByEmail(email);
+        return usuario.isPresent();
+    }
+
+
+    private boolean emailTaken(Usuario usuario) {
+        var usuarioExistente = repository.findByEmail(usuario.getEmail());
+        return usuarioExistente.isPresent() && !isSameUsuario(usuarioExistente.get(), usuario);
+    }
+
+    private boolean isSameUsuario(Usuario usuario, Usuario checkUsuario) {
+        return usuario.getId().equals(checkUsuario.getId());
     }
 
 

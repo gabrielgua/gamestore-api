@@ -29,12 +29,12 @@ public class ResourceServerConfig {
 
     private static final String[] PUBLIC_ENDPOINTS = {
             "/auth/*",
-            "/jogos", "/jogos/*",
-            "/plataformas", "/plataformas/*",
-            "/categorias", "/categorias/*",
             "/modos", "/modos/*",
-            "/desenvolvedoras", "/desenvolvedoras/*", "/desenvolvedoras/**",
+            "/jogos", "/jogos/*",
+            "/categorias", "/categorias/*",
+            "/plataformas", "/plataformas/*",
             "/formas-pagamento", "/formas-pagamento/*",
+            "/desenvolvedoras", "/desenvolvedoras/*", "/desenvolvedoras/**",
     };
 
     @Bean
@@ -47,6 +47,7 @@ public class ResourceServerConfig {
                 .and()
                 .authorizeHttpRequests()
                     .requestMatchers(HttpMethod.GET, PUBLIC_ENDPOINTS).permitAll()
+                    .requestMatchers("/usuarios/check-username").permitAll()
                 .and()
                 .authorizeHttpRequests()
                     .anyRequest().authenticated()
