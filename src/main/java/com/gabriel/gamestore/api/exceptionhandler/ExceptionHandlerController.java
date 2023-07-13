@@ -6,6 +6,7 @@ import com.fasterxml.jackson.databind.exc.PropertyBindingException;
 import com.gabriel.gamestore.domain.exception.EntidadeEmUsoException;
 import com.gabriel.gamestore.domain.exception.EntidadeNaoEncontradaException;
 import com.gabriel.gamestore.domain.exception.NegocioException;
+import com.gabriel.gamestore.domain.exception.UsuarioNaoEncontradoException;
 import lombok.extern.slf4j.Slf4j;
 import org.flywaydb.core.internal.util.ExceptionUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -260,19 +261,4 @@ public class ExceptionHandlerController extends ResponseEntityExceptionHandler {
 
         return handleExceptionInternal(ex, problema, new HttpHeaders(), status, request);
     }
-
-    @ExceptionHandler(UsernameNotFoundException.class)
-    public ResponseEntity<?> handleUsernameNotFound(UsernameNotFoundException ex, WebRequest request) {
-        var status = HttpStatus.UNAUTHORIZED;
-        var detail = ex.getMessage();
-        var type = ProblemaType.CREDENCIAIS_INVALIDAS;
-
-        var problema = createProblemaBuilder(status, type, detail)
-                .userMessage(detail + '.')
-                .build();
-
-        return handleExceptionInternal(ex, problema, new HttpHeaders(), status, request);
-    }
-
-
 }

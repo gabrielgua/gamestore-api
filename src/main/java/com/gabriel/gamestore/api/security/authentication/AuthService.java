@@ -2,7 +2,6 @@ package com.gabriel.gamestore.api.security.authentication;
 
 import com.gabriel.gamestore.api.security.exception.InvalidRefreshTokenException;
 import com.gabriel.gamestore.api.security.jwt.JwtService;
-import com.gabriel.gamestore.domain.exception.UsuarioNaoEncontradoException;
 import com.gabriel.gamestore.domain.model.Usuario;
 import com.gabriel.gamestore.domain.service.UsuarioService;
 import jakarta.servlet.http.HttpServletRequest;
@@ -36,7 +35,7 @@ public class AuthService {
 
     public AuthModel authenticate(AuthRequest request) {
         authenticationManager.authenticate(
-                new UsernamePasswordAuthenticationToken(request.getUsername(), request.getPassword())
+                new UsernamePasswordAuthenticationToken(request.getUsername(), request.getSenha())
         );
 
         var usuario = usuarioService.buscarPorUsername(request.getUsername());

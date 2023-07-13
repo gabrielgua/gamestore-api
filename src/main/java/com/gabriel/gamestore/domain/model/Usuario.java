@@ -21,6 +21,7 @@ public class Usuario {
     private String nome;
     private String email;
     private String username;
+    private String avatarUrl;
     private String senha;
     @Enumerated(EnumType.STRING)
     private TipoUsuario tipo;

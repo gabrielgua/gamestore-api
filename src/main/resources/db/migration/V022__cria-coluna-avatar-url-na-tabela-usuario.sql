@@ -1,0 +1,1 @@
+alter table usuario add column avatar_url varchar(255) not null after username;

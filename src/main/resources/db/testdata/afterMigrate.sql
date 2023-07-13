@@ -304,9 +304,9 @@ insert into jogo_plataforma (jogo_id, plataforma_id) values
 (19, 1), (19, 4), (19, 5),
 (20, 1), (20, 2), (20, 3), (20, 4), (20, 5);
 
-insert into usuario (id, nome, username, tipo, email, senha, data_cadastro) values
-(1, "Gabriel", "opaco", "ADMIN", "gabriel.opaco@email.com", "$2a$12$Z7eR/rUV9CusNU3IEDtyhOhmos/sAQOv5W7MuEd/tU9lejmCdmzZ2", utc_timestamp),
-(2, null, "usuario", "USER", "usuario.gamer@email.com", "$2a$12$Z7eR/rUV9CusNU3IEDtyhOhmos/sAQOv5W7MuEd/tU9lejmCdmzZ2", utc_timestamp);
+insert into usuario (id, nome, username, avatar_url, tipo, email, senha, data_cadastro) values
+(1, "Gabriel", "opaco", "https://api.dicebear.com/6.x/bottts/svg?seed=opaco", "ADMIN", "gabriel.opaco@email.com", "$2a$12$Z7eR/rUV9CusNU3IEDtyhOhmos/sAQOv5W7MuEd/tU9lejmCdmzZ2", utc_timestamp),
+(2, null, "usuario", "https://api.dicebear.com/6.x/bottts/svg?seed=usuario", "USER", "usuario.gamer@email.com", "$2a$12$Z7eR/rUV9CusNU3IEDtyhOhmos/sAQOv5W7MuEd/tU9lejmCdmzZ2", utc_timestamp);
 
 insert into usuario_jogo (usuario_id, jogo_id) values
 (1, 1), (1, 3), (1, 5),

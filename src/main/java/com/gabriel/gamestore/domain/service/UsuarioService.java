@@ -17,6 +17,8 @@ import java.util.List;
 @AllArgsConstructor
 public class UsuarioService {
 
+    private static final String AVATAR_API_URL = "https://api.dicebear.com/6.x/bottts/svg?seed=";
+
     private UsuarioRepository repository;
     private PasswordEncoder encoder;
 
@@ -42,6 +44,7 @@ public class UsuarioService {
         checarUsernameAndEmail(usuario);
 
         if (usuario.isNovo()) {
+            usuario.setAvatarUrl(AVATAR_API_URL + usuario.getUsername());
             usuario.setSenha(encoder.encode(usuario.getSenha()));
             usuario.setTipo(TipoUsuario.USER);
         }

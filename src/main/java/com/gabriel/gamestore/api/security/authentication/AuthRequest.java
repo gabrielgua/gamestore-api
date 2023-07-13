@@ -1,8 +1,6 @@
 package com.gabriel.gamestore.api.security.authentication;
 
-import jakarta.validation.constraints.Min;
 import jakarta.validation.constraints.NotBlank;
-import jakarta.validation.constraints.NotNull;
 import lombok.*;
 
 @Data
@@ -15,5 +13,5 @@ public class AuthRequest {
     private String username;
 
     @NotBlank
-    private String password;
+    private String senha;
 }
