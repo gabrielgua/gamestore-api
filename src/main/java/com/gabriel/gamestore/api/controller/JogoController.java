@@ -44,8 +44,8 @@ public class JogoController {
 
     @GetMapping("/destaques")
     @CheckSecurity.Geral.podeConsultar
-    public List<JogoModel> listarJogosEmDestaque() {
-        return jogoAssembler.toCollectionModel(jogoService.listarDestaques());
+    public List<JogoResumoModel> listarJogosEmDestaque() {
+        return jogoAssembler.toCollectionResumoModel(jogoService.listarDestaques());
     }
 
     @GetMapping(params = "id")

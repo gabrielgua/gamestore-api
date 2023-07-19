@@ -29,6 +29,7 @@ public class ResourceServerConfig {
 
     private static final String[] PUBLIC_READ_ENDPOINTS = {
             "/auth/*",
+            "/erros/*",
             "/modos", "/modos/*",
             "/jogos", "/jogos/*",
             "/categorias", "/categorias/*",

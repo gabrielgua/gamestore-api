@@ -313,13 +313,15 @@ insert into usuario_jogo (usuario_id, jogo_id) values
 (2, 2);
 
 insert into pedido (id, codigo, valor_total, data_criacao, data_confirmacao, data_cancelamento, data_reembolso, status, usuario_id, forma_pagamento_id) values
-(1, "7221549c-db06-11ed-afa1-0242ac120002", 309.80, utc_timestamp, null, null, null, "CONFIRMADO", 1, 3),
+(1, "7221549c-db06-11ed-afa1-0242ac120002", 389.79, utc_timestamp, utc_timestamp, null, null, "CONFIRMADO", 1, 3),
 (2, "b751b070-db06-11ed-afa1-0242ac120002", 79.90, utc_timestamp, null, utc_timestamp, null, "CANCELADO", 1, 2),
-(3, "d5e719f8-db06-11ed-afa1-0242ac120002", 259.98, utc_timestamp, null,null, null, "CRIADO", 2, 1);
+(3, "d5e719f8-db06-11ed-afa1-0242ac120002", 259.89, utc_timestamp, null,null, null, "CRIADO", 2, 1),
+(4, "355729bc-2438-11ee-be56-0242ac120002", 257.90, utc_timestamp, null,null, null, "CRIADO", 2, 4);
 
 insert into pedido_jogo (pedido_id, jogo_id) values
-(1, 1), (1, 2),
+(1, 1), (1, 3),
 (2, 4),
-(3, 3);
+(3, 3),
+(4, 6);
 
 

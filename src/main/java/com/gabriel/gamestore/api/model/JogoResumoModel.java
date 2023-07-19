@@ -14,5 +14,6 @@ public class JogoResumoModel {
     private String uriNome;
     private String urlImagem;
     private DesenvolvedoraResumoModel desenvolvedora;
+    private BigDecimal nota;
     private BigDecimal preco;
 }

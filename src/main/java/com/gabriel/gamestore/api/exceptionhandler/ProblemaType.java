@@ -11,6 +11,7 @@ public enum ProblemaType {
     CORPO_NAO_LEGIVEL("/corpo-nao-legivel", "Corpo não legível"),
     ACESSO_NEGADO("/acesso-negado", "Acesso negado"),
     CREDENCIAIS_INVALIDAS("/credenciais-invalidas", "Credenciais inválidas"),
+    TOKEN_INVALIDO("/token-invalido", "Token inválido"),
     ENTIDADE_NAO_ENCONTRADA("/entidade-nao-encontrada", "Entidade não encontrada");
 
     private final String uri;

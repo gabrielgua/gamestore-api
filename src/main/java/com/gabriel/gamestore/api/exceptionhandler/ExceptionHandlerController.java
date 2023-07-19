@@ -3,10 +3,10 @@ package com.gabriel.gamestore.api.exceptionhandler;
 import com.fasterxml.jackson.databind.JsonMappingException;
 import com.fasterxml.jackson.databind.exc.InvalidFormatException;
 import com.fasterxml.jackson.databind.exc.PropertyBindingException;
+import com.gabriel.gamestore.api.security.exception.InvalidTokenException;
 import com.gabriel.gamestore.domain.exception.EntidadeEmUsoException;
 import com.gabriel.gamestore.domain.exception.EntidadeNaoEncontradaException;
 import com.gabriel.gamestore.domain.exception.NegocioException;
-import com.gabriel.gamestore.domain.exception.UsuarioNaoEncontradoException;
 import lombok.extern.slf4j.Slf4j;
 import org.flywaydb.core.internal.util.ExceptionUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -20,7 +20,6 @@ import org.springframework.http.converter.HttpMessageNotReadableException;
 import org.springframework.security.access.AccessDeniedException;
 import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.authentication.InternalAuthenticationServiceException;
-import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.FieldError;
 import org.springframework.web.bind.MethodArgumentNotValidException;
@@ -29,7 +28,6 @@ import org.springframework.web.bind.annotation.RestControllerAdvice;
 import org.springframework.web.context.request.WebRequest;
 import org.springframework.web.servlet.mvc.method.annotation.ResponseEntityExceptionHandler;
 
-import java.lang.ref.Reference;
 import java.time.OffsetDateTime;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -258,6 +256,20 @@ public class ExceptionHandlerController extends ResponseEntityExceptionHandler {
         var problema = createProblemaBuilder(status, type, detail)
                 .userMessage(detail + '.')
                 .build();
+
+        return handleExceptionInternal(ex, problema, new HttpHeaders(), status, request);
+    }
+
+    @ExceptionHandler(InvalidTokenException.class)
+    public ResponseEntity<?> handleInvalidToken(InvalidTokenException ex, WebRequest request) {
+        var status = HttpStatus.UNAUTHORIZED;
+        var detail = "Token inválido ou expirado";
+        var type = ProblemaType.TOKEN_INVALIDO;
+
+        var problema = createProblemaBuilder(status, type, detail)
+                .userMessage(detail + ".")
+                .build();
+
 
         return handleExceptionInternal(ex, problema, new HttpHeaders(), status, request);
     }

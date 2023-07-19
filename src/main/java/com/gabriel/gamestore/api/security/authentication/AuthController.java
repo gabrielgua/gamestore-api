@@ -3,6 +3,7 @@ package com.gabriel.gamestore.api.security.authentication;
 import com.gabriel.gamestore.api.assembler.UsuarioAssembler;
 import com.gabriel.gamestore.api.model.request.UsuarioComSenhaRequest;
 import com.gabriel.gamestore.domain.service.UsuarioService;
+import jakarta.servlet.http.HttpServletRequest;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
@@ -29,5 +30,10 @@ public class AuthController {
     public ResponseEntity<AuthModel> register(@RequestBody @Valid UsuarioComSenhaRequest request) {
         var usuario = usuarioAssembler.toEntity(request);
         return ResponseEntity.ok(authService.register(usuarioService.salvar(usuario)));
+    }
+
+    @PostMapping("/refresh-token")
+    public ResponseEntity<AuthModel> refreshToken(HttpServletRequest request) {
+        return ResponseEntity.ok(authService.refreshToken(request));
     }
 }

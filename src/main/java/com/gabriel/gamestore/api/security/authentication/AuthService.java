@@ -1,6 +1,6 @@
 package com.gabriel.gamestore.api.security.authentication;
 
-import com.gabriel.gamestore.api.security.exception.InvalidRefreshTokenException;
+import com.gabriel.gamestore.api.security.exception.InvalidTokenException;
 import com.gabriel.gamestore.api.security.jwt.JwtService;
 import com.gabriel.gamestore.domain.model.Usuario;
 import com.gabriel.gamestore.domain.service.UsuarioService;
@@ -54,15 +54,17 @@ public class AuthService {
         final String username;
 
         if (authHeader == null || !authHeader.startsWith("Bearer ")) {
-            throw new InvalidRefreshTokenException();
+            throw new InvalidTokenException();
         }
 
         refreshToken = authHeader.substring(7);
-        username = jwtService.extractUsername(refreshToken);
-        var usuario = usuarioService.buscarPorUsername(username);
 
+        username = jwtService.extractUsername(refreshToken);
+
+
+        var usuario = usuarioService.buscarPorUsername(username);
         if (!jwtService.isTokenValid(refreshToken, usuario.getUsername())) {
-            throw new InvalidRefreshTokenException();
+            throw new InvalidTokenException();
         }
 
         var accessToken = jwtService.generateToken(setExtraDefaultClaims(usuario), usuario);
