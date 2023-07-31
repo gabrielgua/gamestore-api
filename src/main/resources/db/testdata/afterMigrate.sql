@@ -236,7 +236,7 @@ insert into modo (id, nome) values
 (1, 'Um jogador'), (2, 'Multijogador'), (3, 'PvP online'), (4, 'PvE online'), (5, 'Cooperativo on-line');
 
 insert into forma_pagamento (id, nome) values
-(1, 'Pix'), (2, 'Boleto'), (3, 'Cartão de crédito'), (4, 'Cartão de débito'), (5, 'Cartão presente');
+(1, 'Pix'), (2, 'Boleto'), (3, 'Cartão de crédito'), (4, 'Cartão de débito');
 
 insert into jogo_modo (jogo_id, modo_id) values
 (1, 1), (1, 3), (1, 4), (1, 5),

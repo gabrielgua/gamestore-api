@@ -93,11 +93,11 @@ public class PedidoService {
 
     private void verificaSePedidoPossuiJogosIguaisAPedidosAnteriores(Pedido pedido, Usuario usuario) {
         var jogosDoPedido = getJogos(pedido);
-        var pedidosComSatusCriado = usuario.getPedidos().stream().filter(p -> p.getStatus().equals(StatusPedido.CRIADO)).toList();
+        var pedidosComStatusCriado = usuario.getPedidos().stream().filter(p -> p.getStatus().equals(StatusPedido.CRIADO)).toList();
 
 
         Set<Jogo> jogosDosPedidosCriadosAnteriores = new HashSet<>();
-        pedidosComSatusCriado.forEach(p -> {
+        pedidosComStatusCriado.forEach(p -> {
             jogosDosPedidosCriadosAnteriores.addAll(p.getJogos());
         });
 
@@ -106,8 +106,8 @@ public class PedidoService {
 
         if (!jogosIguaisDosPedidos.isEmpty()) {
             throw new NegocioException(
-                    String.format("Usuário '%s' já possui um ou mais pedidos com status 'CRIADO' que contém os seguintes jogos: '%s'"
-                            , usuario.getUsername(), jogosIguaisDosPedidosIds));
+                    String.format("Usuário já possui um pedido com status 'CRIADO' que contém os seguintes jogos: '%s'"
+                            , jogosIguaisDosPedidosIds));
         }
 
     }
@@ -119,8 +119,8 @@ public class PedidoService {
 
         if (!jogosIguais.isEmpty()) {
             throw new NegocioException(
-                    String.format("Usuário '%s' já possui os seguintes jogos: '%s'"
-                            , usuario.getUsername(), jogosIguaisIds));
+                    String.format("Usuário já possui os seguintes jogos: '%s'"
+                            , jogosIguaisIds));
         };
     }
 }
