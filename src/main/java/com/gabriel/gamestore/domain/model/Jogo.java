@@ -31,6 +31,7 @@ public class Jogo {
     private String urlVideo;
     private String urlImagem;
     private String urlImgHero;
+    private String capsuleImg;
 
     @OneToMany(mappedBy = "jogo")
     private Set<Requisito> requisitos;

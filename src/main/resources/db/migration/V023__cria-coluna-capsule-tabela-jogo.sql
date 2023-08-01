@@ -1,0 +1,1 @@
+alter table jogo add column capsule_img varchar(255) not null after url_img_hero;

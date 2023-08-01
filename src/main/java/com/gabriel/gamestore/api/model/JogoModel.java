@@ -22,6 +22,7 @@ public class JogoModel {
     private String urlVideo;
     private String urlImagem;
     private String urlImgHero;
+    private String capsuleImg;
     private OffsetDateTime dataLancamento;
     private String descricao;
     private BigDecimal preco;
