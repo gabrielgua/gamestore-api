@@ -25,6 +25,7 @@ public class Jogo {
     private BigDecimal preco;
     private BigDecimal nota;
     private OffsetDateTime dataLancamento;
+
     @ManyToOne
     private Desenvolvedora desenvolvedora;
 

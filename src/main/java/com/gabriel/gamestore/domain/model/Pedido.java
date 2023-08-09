@@ -47,6 +47,10 @@ public class Pedido {
         inverseJoinColumns = @JoinColumn(name = "jogo_id"))
     private Set<Jogo> jogos = new HashSet<>();
 
+    @OneToMany(mappedBy = "pedido")
+    private Set<ChaveAtivacao> chaves;
+
+
     public void confirmarPedido() {
         setStatus(StatusPedido.CONFIRMADO);
         setDataConfirmacao(OffsetDateTime.now());

@@ -33,6 +33,7 @@ public class Usuario {
         inverseJoinColumns = @JoinColumn(name = "jogo_id"))
     private Set<Jogo> jogos;
 
+
     @OneToMany(mappedBy = "usuario")
     private Set<Pedido> pedidos;
 

@@ -2,26 +2,26 @@ package com.gabriel.gamestore.domain.service;
 
 import com.gabriel.gamestore.domain.exception.NegocioException;
 import com.gabriel.gamestore.domain.exception.PedidoNaoEncontradoException;
-import com.gabriel.gamestore.domain.model.Jogo;
-import com.gabriel.gamestore.domain.model.Pedido;
-import com.gabriel.gamestore.domain.model.StatusPedido;
-import com.gabriel.gamestore.domain.model.Usuario;
+import com.gabriel.gamestore.domain.model.*;
 import com.gabriel.gamestore.domain.repository.PedidoRepository;
 import lombok.AllArgsConstructor;
+import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
+import java.util.UUID;
 
 @Service
-@AllArgsConstructor
+@RequiredArgsConstructor
 public class PedidoService {
 
-    private PedidoRepository repository;
-    private UsuarioService usuarioService;
-    private JogoService jogoService;
+    private final PedidoRepository repository;
+    private final UsuarioService usuarioService;
+    private final JogoService jogoService;
+    private final ChaveAtivacaoService chaveService;
 
     @Transactional(readOnly = true)
     public List<Pedido> listar() {
@@ -47,6 +47,7 @@ public class PedidoService {
     public void confirmar(String codigoPedido) {
         var pedido = buscarPorCodigo(codigoPedido);
         pedido.confirmarPedido();
+        chaveService.salvar(pedido);
 
         var usuario = usuarioService.buscarPorId(pedido.getUsuario().getId());
         var jogos = getJogos(pedido);
@@ -123,4 +124,8 @@ public class PedidoService {
                             , jogosIguaisIds));
         };
     }
+
+
+
+
 }
