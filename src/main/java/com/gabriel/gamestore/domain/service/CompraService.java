@@ -45,6 +45,16 @@ public class CompraService {
     }
 
     private String gerarChaveAtivacao() {
-        return UUID.randomUUID().toString();
+        final String chars = "ABCDEFGHIJKLMNOPQRSTUVYWXZ0123456789";
+        final int size = 15;
+
+        StringBuilder chave = new StringBuilder();
+        for (int i = 0; i < size; i++) {
+            chave.append(chars.charAt((int) (Math.random() * chars.length())));
+        }
+        chave.insert(5, "-");
+        chave.insert(11, "-");
+
+        return chave.toString();
     }
 }
