@@ -2,6 +2,7 @@ package com.gabriel.gamestore.domain.service;
 
 import com.gabriel.gamestore.domain.exception.NegocioException;
 import com.gabriel.gamestore.domain.exception.UsuarioNaoEncontradoException;
+import com.gabriel.gamestore.domain.model.Compra;
 import com.gabriel.gamestore.domain.model.Jogo;
 import com.gabriel.gamestore.domain.model.TipoUsuario;
 import com.gabriel.gamestore.domain.model.Usuario;
@@ -69,16 +70,14 @@ public class UsuarioService {
     }
 
     @Transactional
-    public void adicionarJogos(Usuario usuario, List<Jogo> jogos) {
-        jogos.forEach(usuario::addJogo);
+    public void adicionarCompras(Usuario usuario, List<Compra> compras) {
+        compras.forEach(usuario::addCompra);
     }
 
     @Transactional
-    public void removerJogos(Usuario usuario, List<Jogo> jogos) {
-        jogos.forEach(usuario::delJogo);
+    public void removerCompras(Usuario usuario, List<Compra> compras) {
+        compras.forEach(usuario::delCompra);
     }
-
-
 
     private void checarUsernameAndEmail(Usuario usuario) {
         if (usernameTaken(usuario)) {

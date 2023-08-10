@@ -1,8 +1,10 @@
 package com.gabriel.gamestore.api.controller;
 
+import com.gabriel.gamestore.api.assembler.CompraAssembler;
 import com.gabriel.gamestore.api.assembler.JogoAssembler;
 import com.gabriel.gamestore.api.assembler.PedidoAssembler;
 import com.gabriel.gamestore.api.assembler.UsuarioAssembler;
+import com.gabriel.gamestore.api.model.CompraModel;
 import com.gabriel.gamestore.api.model.JogoResumoModel;
 import com.gabriel.gamestore.api.model.PedidoModel;
 import com.gabriel.gamestore.api.model.UsuarioModel;
@@ -20,9 +22,9 @@ import java.util.List;
 @RequestMapping("/usuarios")
 public class UsuarioLogadoController {
 
-    private JogoAssembler jogoAssembler;
     private UsuarioService usuarioService;
     private PedidoAssembler pedidoAssembler;
+    private CompraAssembler compraAssembler;
     private UsuarioAssembler usuarioAssembler;
     private AuthorizationConfig authorizationConfig;
 
@@ -39,11 +41,10 @@ public class UsuarioLogadoController {
         return pedidoAssembler.toCollectionModel(pedidos.stream().toList());
     }
 
-    @GetMapping("/meus-jogos")
-    public List<JogoResumoModel> buscarJogosUsuarioLogado() {
+    @GetMapping("/minhas-compras")
+    public List<CompraModel> buscarJogosUsuarioLogado() {
         var usuario = usuarioService.buscarPorId(authorizationConfig.getUsuarioId());
-        var jogos = usuario.getJogos();
-        return jogoAssembler.toCollectionResumoModel(jogos.stream().toList());
+        return compraAssembler.toCollectionModel(usuario.getCompras());
     }
 
 

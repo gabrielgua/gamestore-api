@@ -4,6 +4,7 @@ import com.gabriel.gamestore.domain.exception.NegocioException;
 import jakarta.persistence.*;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
+import lombok.ToString;
 import org.hibernate.annotations.CreationTimestamp;
 
 import java.math.BigDecimal;
@@ -15,6 +16,7 @@ import java.util.stream.Collectors;
 
 @Data
 @Entity
+@ToString
 @EqualsAndHashCode(onlyExplicitlyIncluded = true)
 public class Pedido {
 
@@ -46,10 +48,6 @@ public class Pedido {
         joinColumns = @JoinColumn(name = "pedido_id"),
         inverseJoinColumns = @JoinColumn(name = "jogo_id"))
     private Set<Jogo> jogos = new HashSet<>();
-
-    @OneToMany(mappedBy = "pedido")
-    private Set<ChaveAtivacao> chaves;
-
 
     public void confirmarPedido() {
         setStatus(StatusPedido.CONFIRMADO);

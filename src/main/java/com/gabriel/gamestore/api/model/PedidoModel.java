@@ -1,7 +1,6 @@
 package com.gabriel.gamestore.api.model;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
-import com.gabriel.gamestore.domain.model.ChaveAtivacao;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -25,6 +24,5 @@ public class PedidoModel {
     private String status;
     private UsuarioPedidoModel usuario;
     private List<JogoPedidoModel> jogos;
-    private List<ChaveAtivacaoModel> chaves;
 
 }

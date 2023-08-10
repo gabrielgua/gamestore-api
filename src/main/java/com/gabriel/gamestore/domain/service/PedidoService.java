@@ -4,7 +4,6 @@ import com.gabriel.gamestore.domain.exception.NegocioException;
 import com.gabriel.gamestore.domain.exception.PedidoNaoEncontradoException;
 import com.gabriel.gamestore.domain.model.*;
 import com.gabriel.gamestore.domain.repository.PedidoRepository;
-import lombok.AllArgsConstructor;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -12,7 +11,6 @@ import org.springframework.transaction.annotation.Transactional;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
-import java.util.UUID;
 
 @Service
 @RequiredArgsConstructor
@@ -21,7 +19,7 @@ public class PedidoService {
     private final PedidoRepository repository;
     private final UsuarioService usuarioService;
     private final JogoService jogoService;
-    private final ChaveAtivacaoService chaveService;
+    private final CompraService compraService;
 
     @Transactional(readOnly = true)
     public List<Pedido> listar() {
@@ -47,12 +45,10 @@ public class PedidoService {
     public void confirmar(String codigoPedido) {
         var pedido = buscarPorCodigo(codigoPedido);
         pedido.confirmarPedido();
-        chaveService.salvar(pedido);
+        var compras = compraService.salvar(pedido);
 
-        var usuario = usuarioService.buscarPorId(pedido.getUsuario().getId());
-        var jogos = getJogos(pedido);
+//        usuarioService.adicionarCompras(pedido.getUsuario(), compras);
 
-        usuarioService.adicionarJogos(usuario, jogos);
     }
 
     @Transactional
@@ -65,11 +61,7 @@ public class PedidoService {
     public void reembolsar(String codigoPedido) {
         var pedido = buscarPorCodigo(codigoPedido);
         pedido.reembolsarPedido();
-
-        var usuario = usuarioService.buscarPorId(pedido.getUsuario().getId());
-        var jogos = getJogos(pedido);
-
-        usuarioService.removerJogos(usuario, jogos);
+        compraService.remover(pedido);
     }
 
     private void validarPedido(Pedido pedido) {
@@ -115,7 +107,12 @@ public class PedidoService {
 
     private void verificaSePedidoPossuiJogosQueOUsuarioJaPossui(Pedido pedido, Usuario usuario) {
         var jogosDoPedido = getJogos(pedido);
-        List<Jogo> jogosIguais = usuario.getJogos().stream().filter(jogosDoPedido::contains).toList();
+
+        Set<Compra> comprasUsuario = usuario.getCompras();
+        List<Jogo> jogosIguais = comprasUsuario.stream()
+                .map(Compra::getJogo)
+                .filter(jogosDoPedido::contains)
+                .toList();
         List<Long> jogosIguaisIds = jogosIguais.stream().map(Jogo::getId).toList();
 
         if (!jogosIguais.isEmpty()) {

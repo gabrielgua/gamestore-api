@@ -3,13 +3,13 @@ set foreign_key_checks = 0;
 delete from jogo;
 delete from modo;
 delete from pedido;
+delete from compra;
 delete from usuario;
 delete from jogo_modo;
 delete from requisito;
 delete from categoria;
 delete from plataforma;
 delete from pedido_jogo;
-delete from usuario_jogo;
 delete from jogo_categoria;
 delete from desenvolvedora;
 delete from jogo_plataforma;
@@ -20,6 +20,7 @@ set foreign_key_checks = 1;
 alter table jogo auto_increment = 1;
 alter table modo auto_increment = 1;
 alter table pedido auto_increment = 1;
+alter table compra auto_increment = 1;
 alter table usuario auto_increment = 1;
 alter table requisito auto_increment = 1;
 alter table categoria auto_increment = 1;
@@ -328,14 +329,10 @@ insert into usuario (id, nome, username, avatar_url, tipo, email, senha, data_ca
 (1, "Gabriel", "opaco", "https://api.dicebear.com/6.x/bottts/svg?seed=opaco", "ADMIN", "gabriel.opaco@email.com", "$2a$12$Z7eR/rUV9CusNU3IEDtyhOhmos/sAQOv5W7MuEd/tU9lejmCdmzZ2", utc_timestamp),
 (2, null, "usuario", "https://api.dicebear.com/6.x/bottts/svg?seed=usuario", "USER", "usuario.gamer@email.com", "$2a$12$Z7eR/rUV9CusNU3IEDtyhOhmos/sAQOv5W7MuEd/tU9lejmCdmzZ2", utc_timestamp);
 
-insert into usuario_jogo (usuario_id, jogo_id) values
-(1, 1), (1, 3), (1, 5),
-(2, 2);
-
 insert into pedido (id, codigo, valor_total, data_criacao, data_confirmacao, data_cancelamento, data_reembolso, status, usuario_id, forma_pagamento_id) values
 (1, "7221549c-db06-11ed-afa1-0242ac120002", 389.79, utc_timestamp, utc_timestamp, null, null, "CONFIRMADO", 1, 3),
 (2, "b751b070-db06-11ed-afa1-0242ac120002", 79.90, utc_timestamp, null, utc_timestamp, null, "CANCELADO", 1, 2),
-(3, "d5e719f8-db06-11ed-afa1-0242ac120002", 259.89, utc_timestamp, null,null, null, "CRIADO", 2, 1),
+(3, "d5e719f8-db06-11ed-afa1-0242ac120002", 259.89, utc_timestamp, utc_timestamp, null, null, "CONFIRMADO", 2, 1),
 (4, "355729bc-2438-11ee-be56-0242ac120002", 257.90, utc_timestamp, null,null, null, "CRIADO", 2, 4);
 
 insert into pedido_jogo (pedido_id, jogo_id) values
@@ -343,5 +340,12 @@ insert into pedido_jogo (pedido_id, jogo_id) values
 (2, 4),
 (3, 3),
 (4, 6);
+
+insert into compra (id, usuario_id, jogo_id, codigo_pedido, data_compra, chave_ativacao) values
+(1, 1, 1, "7221549c-db06-11ed-afa1-0242ac120002", utc_timestamp, "0a8721c4-36ee-11ee-be56-0242ac120002"),
+(2, 1, 3, "7221549c-db06-11ed-afa1-0242ac120002", utc_timestamp, "05fcf776-9ac5-493c-8ff3-dd8a95d9e938"),
+(3, 2, 3, "d5e719f8-db06-11ed-afa1-0242ac120002", utc_timestamp, "63b7b282-cbd3-4fbc-963c-e3e5c650a628");
+
+
 
 

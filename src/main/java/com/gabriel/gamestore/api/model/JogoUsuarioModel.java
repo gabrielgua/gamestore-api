@@ -5,9 +5,9 @@ import lombok.Setter;
 
 @Getter
 @Setter
-public class ChaveAtivacaoModel {
+public class JogoUsuarioModel {
 
-    private Long id;
+    private JogoResumoModel jogo;
+    private PedidoResumoModel pedido;
     private String chave;
-    private Long jogoId;
 }
