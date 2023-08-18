@@ -11,9 +11,7 @@ import com.gabriel.gamestore.api.model.UsuarioModel;
 import com.gabriel.gamestore.api.security.roleauthotization.AuthorizationConfig;
 import com.gabriel.gamestore.domain.service.UsuarioService;
 import lombok.AllArgsConstructor;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -47,8 +45,10 @@ public class UsuarioLogadoController {
         return compraAssembler.toCollectionModel(usuario.getCompras());
     }
 
-
-
-
-
+    @PostMapping("/trocar-avatar")
+    public UsuarioModel trocarAvatar(@RequestBody String avatarUrl) {
+        var usuario = usuarioService.buscarPorId(authorizationConfig.getUsuarioId());
+        usuario.setAvatarUrl(avatarUrl);
+        return usuarioAssembler.toModel(usuarioService.salvar(usuario));
+    }
 }

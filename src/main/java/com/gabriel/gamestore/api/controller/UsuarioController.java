@@ -37,7 +37,6 @@ public class UsuarioController {
         return service.emailTaken(request.getEmail());
     }
 
-
     @GetMapping("/{usuarioId}")
     @CheckSecurity.Usuarios.podeBuscar
     public UsuarioModel buscarPorId(@PathVariable Long usuarioId) {

@@ -342,9 +342,9 @@ insert into pedido_jogo (pedido_id, jogo_id) values
 (4, 6);
 
 insert into compra (id, usuario_id, jogo_id, codigo_pedido, data_compra, chave_ativacao) values
-(1, 1, 1, "7221549c-db06-11ed-afa1-0242ac120002", utc_timestamp, "0a8721c4-36ee-11ee-be56-0242ac120002"),
-(2, 1, 3, "7221549c-db06-11ed-afa1-0242ac120002", utc_timestamp, "05fcf776-9ac5-493c-8ff3-dd8a95d9e938"),
-(3, 2, 3, "d5e719f8-db06-11ed-afa1-0242ac120002", utc_timestamp, "63b7b282-cbd3-4fbc-963c-e3e5c650a628");
+(1, 1, 1, "7221549c-db06-11ed-afa1-0242ac120002", utc_timestamp, "29EC1-47F94-66CW2"),
+(2, 1, 3, "7221549c-db06-11ed-afa1-0242ac120002", utc_timestamp, "88257-C6D62-7E6DG"),
+(3, 2, 3, "d5e719f8-db06-11ed-afa1-0242ac120002", utc_timestamp, "65A28-4E3B3-E44AC");
 
 
 
