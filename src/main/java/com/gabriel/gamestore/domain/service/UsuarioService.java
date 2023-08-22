@@ -13,6 +13,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
+import java.util.UUID;
 
 @Service
 @AllArgsConstructor
@@ -45,7 +46,7 @@ public class UsuarioService {
         checarUsernameAndEmail(usuario);
 
         if (usuario.isNovo()) {
-            usuario.setAvatarUrl(AVATAR_API_URL + usuario.getUsername());
+            usuario.setAvatarUrl(generateAvatarUrl(usuario.getUsername()));
             usuario.setSenha(encoder.encode(usuario.getSenha()));
             usuario.setTipo(TipoUsuario.USER);
         }
@@ -53,6 +54,9 @@ public class UsuarioService {
         return repository.save(usuario);
     }
 
+    private String generateAvatarUrl(String username) {
+        return AVATAR_API_URL + username + UUID.randomUUID().toString();
+    }
 
     @Transactional
     public void alterarSenha(Long usuarioId, String senhaAtual, String senhaNova) {

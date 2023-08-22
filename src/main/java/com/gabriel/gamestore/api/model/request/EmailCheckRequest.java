@@ -12,4 +12,6 @@ public class EmailCheckRequest {
     @Email
     @NotBlank
     private String email;
+
+    private Long usuarioId;
 }

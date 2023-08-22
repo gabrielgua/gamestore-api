@@ -28,12 +28,26 @@ public class UsuarioController {
     @PostMapping("/check-username")
     @CheckSecurity.Geral.podeConsultar
     public boolean usernameTaken(@RequestBody @Valid UsernameCheckRequest request) {
+        if (request.getUsuarioId() != null) {
+            var usuario = service.buscarPorId(request.getUsuarioId());
+            if (usuario.getUsername().equals(request.getUsername())) {
+                return false;
+            }
+        }
+
         return service.usernameTaken(request.getUsername());
     }
 
     @PostMapping("/check-email")
     @CheckSecurity.Geral.podeConsultar
     public boolean emailTaken(@RequestBody @Valid EmailCheckRequest request) {
+        if (request.getUsuarioId() != null) {
+            var usuario = service.buscarPorId(request.getUsuarioId());
+            if (usuario.getEmail().equals(request.getEmail())) {
+                return false;
+            }
+        }
+
         return service.emailTaken(request.getEmail());
     }
 

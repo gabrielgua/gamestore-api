@@ -326,8 +326,8 @@ insert into jogo_plataforma (jogo_id, plataforma_id) values
 (20, 1), (20, 2), (20, 3), (20, 4), (20, 5);
 
 insert into usuario (id, nome, username, avatar_url, tipo, email, senha, data_cadastro) values
-(1, "Gabriel", "opaco", "https://api.dicebear.com/6.x/bottts/svg?seed=opaco", "ADMIN", "gabriel.opaco@email.com", "$2a$12$Z7eR/rUV9CusNU3IEDtyhOhmos/sAQOv5W7MuEd/tU9lejmCdmzZ2", utc_timestamp),
-(2, null, "usuario", "https://api.dicebear.com/6.x/bottts/svg?seed=usuario", "USER", "usuario.gamer@email.com", "$2a$12$Z7eR/rUV9CusNU3IEDtyhOhmos/sAQOv5W7MuEd/tU9lejmCdmzZ2", utc_timestamp);
+(1, "Gabriel", "opaco", "https://api.dicebear.com/6.x/bottts/svg?seed=opaco9c6595fa-d06b-4714-88be-e56d76b03531", "ADMIN", "gabriel.opaco@email.com", "$2a$12$Z7eR/rUV9CusNU3IEDtyhOhmos/sAQOv5W7MuEd/tU9lejmCdmzZ2", utc_timestamp),
+(2, "Usuário", "usuario", "https://api.dicebear.com/6.x/bottts/svg?seed=usuario1fc8957d-c3a5-4482-92d1-b391ff4bd743", "USER", "usuario.gamer@email.com", "$2a$12$Z7eR/rUV9CusNU3IEDtyhOhmos/sAQOv5W7MuEd/tU9lejmCdmzZ2", utc_timestamp);
 
 insert into pedido (id, codigo, valor_total, data_criacao, data_confirmacao, data_cancelamento, data_reembolso, status, usuario_id, forma_pagamento_id) values
 (1, "7221549c-db06-11ed-afa1-0242ac120002", 389.79, utc_timestamp, utc_timestamp, null, null, "CONFIRMADO", 1, 3),
