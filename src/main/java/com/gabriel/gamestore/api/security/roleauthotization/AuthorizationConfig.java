@@ -42,7 +42,7 @@ public class AuthorizationConfig {
         return temAuthority("USER");
     }
 
-    private boolean usuarioAutenticadoIgualA(Long usuarioId) {
+    public boolean usuarioAutenticadoIgualA(Long usuarioId) {
         return getUsuarioId() != null && usuarioId != null && getUsuarioId().equals(usuarioId);
     }
 
@@ -64,6 +64,7 @@ public class AuthorizationConfig {
     public boolean podeAlterarPropriaSenha(Long usuarioId) {
         return usuarioAutenticadoIgualA(usuarioId);
     }
+
 
     // Usuários Jogos
     public boolean podeListarJogosDoUsuario(Long usuarioId) {

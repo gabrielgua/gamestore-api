@@ -47,7 +47,6 @@ public class PedidoService {
         pedido.confirmarPedido();
         var compras = compraService.salvar(pedido);
 
-//        usuarioService.adicionarCompras(pedido.getUsuario(), compras);
 
     }
 

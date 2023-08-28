@@ -45,6 +45,11 @@ public @interface CheckSecurity {
         @Target(ElementType.METHOD)
         @PreAuthorize("@authorizationConfig.podeAlterarPropriaSenha(#usuarioId)")
         public @interface podeAlterarPropriaSenha {}
+
+        @Retention(RetentionPolicy.RUNTIME)
+        @Target(ElementType.METHOD)
+        @PreAuthorize("@authorizationConfig.usuarioAutenticadoIgualA(#usuarioId)")
+        public @interface isUsuarioAutenticado {}
     }
 
     public @interface UsuarioJogos {
@@ -58,6 +63,8 @@ public @interface CheckSecurity {
         @Target(ElementType.METHOD)
         @PreAuthorize("@authorizationConfig.podeGerenciarJogosDoUsuario(#usuarioId)")
         public @interface podeGerenciar {}
+
+
     }
 
     public @interface Pedidos {

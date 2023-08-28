@@ -7,6 +7,7 @@ import lombok.ToString;
 import org.hibernate.annotations.CreationTimestamp;
 
 import java.time.OffsetDateTime;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
@@ -39,12 +40,25 @@ public class Usuario {
     @OneToMany(mappedBy = "usuario")
     private Set<Pedido> pedidos;
 
+    @ManyToMany
+    @JoinTable(name = "usuario_desejos",
+            joinColumns = @JoinColumn(name = "usuario_id"),
+            inverseJoinColumns = @JoinColumn(name = "jogo_id"))
+    private Set<Jogo> desejos = new HashSet<>();
+
     public void addCompra(Compra compra) {
         compras.add(compra);
     }
-
     public void delCompra(Compra compra) {
         compras.remove(compra);
+    }
+
+    public void addJogo(Jogo jogo) {
+        desejos.add(jogo);
+    }
+
+    public void delJogo(Jogo jogo) {
+        desejos.remove(jogo);
     }
 
     public boolean isNovo() {

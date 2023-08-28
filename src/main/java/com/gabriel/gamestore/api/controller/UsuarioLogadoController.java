@@ -20,6 +20,7 @@ import java.util.List;
 @RequestMapping("/usuarios")
 public class UsuarioLogadoController {
 
+    private JogoAssembler jogoAssembler;
     private UsuarioService usuarioService;
     private PedidoAssembler pedidoAssembler;
     private CompraAssembler compraAssembler;
@@ -43,6 +44,12 @@ public class UsuarioLogadoController {
     public List<CompraModel> buscarJogosUsuarioLogado() {
         var usuario = usuarioService.buscarPorId(authorizationConfig.getUsuarioId());
         return compraAssembler.toCollectionModel(usuario.getCompras());
+    }
+
+    @GetMapping("/meus-desejos")
+    public List<JogoResumoModel> buscarListaDesejosUsuarioLogado() {
+        var usuario = usuarioService.buscarPorId(authorizationConfig.getUsuarioId());
+        return jogoAssembler.toCollectionResumoModel(usuario.getDesejos().stream().toList());
     }
 
     @PostMapping("/trocar-avatar")

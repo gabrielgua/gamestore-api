@@ -13,7 +13,9 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
+import java.util.Set;
 import java.util.UUID;
+import java.util.stream.Collectors;
 
 @Service
 @AllArgsConstructor
@@ -74,13 +76,26 @@ public class UsuarioService {
     }
 
     @Transactional
-    public void adicionarCompras(Usuario usuario, List<Compra> compras) {
-        compras.forEach(usuario::addCompra);
+    public void adicionarJogoDesejo(Usuario usuario, Jogo jogo) {
+        if (verificaSeUsuarioJaPossuiJogo(usuario, jogo)) {
+            throw new NegocioException(String.format("'%s' já está na sua biblioteca.", jogo.getNome()));
+        }
+
+        usuario.addJogo(jogo);
+    }
+
+    private boolean verificaSeUsuarioJaPossuiJogo(Usuario usuario, Jogo jogo) {
+        var compras = usuario.getCompras();
+        var jogos = compras.stream()
+                .map(Compra::getJogo)
+                .collect(Collectors.toSet());
+
+        return jogos.contains(jogo);
     }
 
     @Transactional
-    public void removerCompras(Usuario usuario, List<Compra> compras) {
-        compras.forEach(usuario::delCompra);
+    public void removerJogoDesejo(Usuario usuario, Jogo jogo) {
+        usuario.delJogo(jogo);
     }
 
     private void checarUsernameAndEmail(Usuario usuario) {
@@ -117,6 +132,8 @@ public class UsuarioService {
     private boolean isSameUsuario(Usuario usuario, Usuario checkUsuario) {
         return usuario.getId().equals(checkUsuario.getId());
     }
+
+
 
 
 }
