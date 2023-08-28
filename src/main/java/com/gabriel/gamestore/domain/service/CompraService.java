@@ -1,6 +1,7 @@
 package com.gabriel.gamestore.domain.service;
 
 import com.gabriel.gamestore.domain.model.Compra;
+import com.gabriel.gamestore.domain.model.Jogo;
 import com.gabriel.gamestore.domain.model.Pedido;
 import com.gabriel.gamestore.domain.model.Usuario;
 import com.gabriel.gamestore.domain.repository.CompraRepository;
@@ -29,7 +30,16 @@ public class CompraService {
             return new Compra(jogo, usuario, pedido, gerarChaveAtivacao());
         }).toList();
 
+        var jogos = compras.stream()
+                .map(Compra::getJogo)
+                .collect(Collectors.toSet());
+        removerDaListaDesejos(usuario, jogos);
+
         return repository.saveAll(compras);
+    }
+
+    private void removerDaListaDesejos(Usuario usuario, Set<Jogo> jogos) {
+        jogos.forEach(usuario::delJogo);
     }
 
 
