@@ -14,6 +14,7 @@ delete from jogo_categoria;
 delete from desenvolvedora;
 delete from jogo_plataforma;
 delete from forma_pagamento;
+delete from usuario_desejos;
 
 set foreign_key_checks = 1;
 
@@ -345,6 +346,10 @@ insert into compra (id, usuario_id, jogo_id, codigo_pedido, data_compra, chave_a
 (1, 1, 1, "7221549c-db06-11ed-afa1-0242ac120002", utc_timestamp, "29EC1-47F94-66CW2"),
 (2, 1, 3, "7221549c-db06-11ed-afa1-0242ac120002", utc_timestamp, "88257-C6D62-7E6DG"),
 (3, 2, 3, "d5e719f8-db06-11ed-afa1-0242ac120002", utc_timestamp, "65A28-4E3B3-E44AC");
+
+insert into usuario_desejos (usuario_id, jogo_id) values
+(1, 4), (1, 2), (1, 19),
+(2, 9), (2, 10);
 
 
 

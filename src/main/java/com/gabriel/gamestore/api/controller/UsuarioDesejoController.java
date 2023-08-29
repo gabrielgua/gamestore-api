@@ -34,7 +34,6 @@ public class UsuarioDesejoController {
         var jogo = jogoService.buscarPorId(jogoId);
 
         usuarioService.adicionarJogoDesejo(usuario, jogo);
-
     }
 
     @DeleteMapping("/{jogoId}")
