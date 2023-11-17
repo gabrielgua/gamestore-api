@@ -21,6 +21,11 @@ public @interface CheckSecurity {
         @PreAuthorize("@authorizationConfig.podeGerenciarOuConsultarRecursosProtegidosGerais()")
         public @interface podeGerenciar {}
 
+        @Retention(RetentionPolicy.RUNTIME)
+        @Target(ElementType.METHOD)
+        @PreAuthorize("@authorizationConfig.isAdmin")
+        public @interface isAdmin {}
+
     }
 
     public @interface Usuarios {
@@ -50,6 +55,12 @@ public @interface CheckSecurity {
         @Target(ElementType.METHOD)
         @PreAuthorize("@authorizationConfig.usuarioAutenticadoIgualA(#usuarioId)")
         public @interface isUsuarioAutenticado {}
+
+        @Retention(RetentionPolicy.RUNTIME)
+        @Target(ElementType.METHOD)
+        @PreAuthorize("@authorizationConfig.podeGerenciarPermissoesAdmin(#usuarioId)")
+        public @interface podeGerenciarPermissoesAdmin {}
+
     }
 
     public @interface UsuarioJogos {

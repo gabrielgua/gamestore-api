@@ -123,6 +123,21 @@ public class UsuarioService {
         return usuario.isPresent();
     }
 
+    public void tornarAdmin(Usuario usuario) {
+        if (isAdmin(usuario)) return;
+
+        usuario.setTipo(TipoUsuario.ADMIN);
+        repository.save(usuario);
+    }
+
+    public void revogarAdmin(Usuario usuario) {
+        if (!isAdmin(usuario)) return;
+
+        usuario.setTipo(TipoUsuario.USER);
+        repository.save(usuario);
+    }
+
+
 
     private boolean emailTaken(Usuario usuario) {
         var usuarioExistente = repository.findByEmail(usuario.getEmail());
@@ -132,6 +147,11 @@ public class UsuarioService {
     private boolean isSameUsuario(Usuario usuario, Usuario checkUsuario) {
         return usuario.getId().equals(checkUsuario.getId());
     }
+
+    private boolean isAdmin(Usuario usuario) {
+        return usuario.getTipo() == TipoUsuario.ADMIN;
+    }
+
 
 
 

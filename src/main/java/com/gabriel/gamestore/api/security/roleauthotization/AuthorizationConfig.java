@@ -65,6 +65,10 @@ public class AuthorizationConfig {
         return usuarioAutenticadoIgualA(usuarioId);
     }
 
+    public boolean podeGerenciarPermissoesAdmin(Long usuarioId) {
+        return isAdmin() && !usuarioAutenticadoIgualA(usuarioId);
+    }
+
 
     // Usuários Jogos
     public boolean podeListarJogosDoUsuario(Long usuarioId) {

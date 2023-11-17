@@ -1,5 +1,6 @@
 package com.gabriel.gamestore.api.controller;
 
+import com.electronwill.nightconfig.core.conversion.Path;
 import com.gabriel.gamestore.api.assembler.UsuarioAssembler;
 import com.gabriel.gamestore.api.model.UsuarioModel;
 import com.gabriel.gamestore.api.model.request.*;
@@ -7,6 +8,7 @@ import com.gabriel.gamestore.api.security.roleauthotization.CheckSecurity;
 import com.gabriel.gamestore.domain.service.UsuarioService;
 import jakarta.validation.Valid;
 import lombok.AllArgsConstructor;
+import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -83,4 +85,19 @@ public class UsuarioController {
     public void alterarSenha(@PathVariable Long usuarioId, @Valid @RequestBody SenhaRequest request) {
         service.alterarSenha(usuarioId, request.getSenhaAtual(), request.getSenhaNova());
     }
+
+    @PutMapping("/{usuarioId}/admin")
+    @CheckSecurity.Usuarios.podeGerenciarPermissoesAdmin
+    public void concederAdmin(@PathVariable Long usuarioId) {
+        var usuario = service.buscarPorId(usuarioId);
+        service.tornarAdmin(usuario);
+    }
+
+    @DeleteMapping("/{usuarioId}/admin")
+    @CheckSecurity.Usuarios.podeGerenciarPermissoesAdmin
+    public void revogarAdmin(@PathVariable Long usuarioId) {
+        var usuario = service.buscarPorId(usuarioId);
+        service.revogarAdmin(usuario);
+    }
+
 }
