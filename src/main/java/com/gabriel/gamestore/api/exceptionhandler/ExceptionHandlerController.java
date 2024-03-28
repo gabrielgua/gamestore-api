@@ -3,12 +3,14 @@ package com.gabriel.gamestore.api.exceptionhandler;
 import com.fasterxml.jackson.databind.JsonMappingException;
 import com.fasterxml.jackson.databind.exc.InvalidFormatException;
 import com.fasterxml.jackson.databind.exc.PropertyBindingException;
+import com.gabriel.gamestore.api.exceptionhandler.Problema.ProblemaBuilder;
 import com.gabriel.gamestore.api.security.exception.InvalidTokenException;
 import com.gabriel.gamestore.domain.exception.EntidadeEmUsoException;
 import com.gabriel.gamestore.domain.exception.EntidadeNaoEncontradaException;
 import com.gabriel.gamestore.domain.exception.NegocioException;
 import lombok.extern.slf4j.Slf4j;
 import org.flywaydb.core.internal.util.ExceptionUtils;
+import org.jetbrains.annotations.NotNull;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.MessageSource;
 import org.springframework.context.i18n.LocaleContextHolder;
@@ -42,7 +44,7 @@ public class ExceptionHandlerController extends ResponseEntityExceptionHandler {
     @Autowired
     private MessageSource messageSource;
 
-    private Problema.ProblemaBuilder createProblemaBuilder(HttpStatus status, ProblemaType type, String detail) {
+    private ProblemaBuilder createProblemaBuilder(HttpStatus status, ProblemaType type, String detail) {
         return Problema.builder()
                 .status(status.value())
                 .type(type.getUri())
@@ -50,6 +52,7 @@ public class ExceptionHandlerController extends ResponseEntityExceptionHandler {
                 .detail(detail)
                 .timestamp(OffsetDateTime.now());
     }
+
 
 
     @Override
@@ -75,7 +78,7 @@ public class ExceptionHandlerController extends ResponseEntityExceptionHandler {
         return super.handleExceptionInternal(ex, body, headers, statusCode, request);
     }
 
-    private List<Problema.Objeto> fieldErrorsToList(BindingResult bindingResult) {
+    private List<Problema.Objeto> fieldErrorsToList(@NotNull BindingResult bindingResult) {
         return bindingResult.getAllErrors().stream()
                 .map(error -> {
                     String name = error.getObjectName();

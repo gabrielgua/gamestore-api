@@ -33,6 +33,9 @@ public class JogoRequest {
     @NotBlank
     private String urlImgHero;
 
+    @NotBlank
+    private String capsuleImg;
+
     @NotNull
     private OffsetDateTime dataLancamento;
 
